@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semigas Solutions</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Atom Loader -->
+    <div id="atom-loader" class="atom-loader">
+        <img src="assets/semigasSpinner.png" alt="Loading Semigas" class="atom-svg">
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-content" class="main-content">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">Semigas Solutions</div>
+                <ul class="nav-menu">
+                    <li><a href="#home" class="nav-link" data-section="home">Home</a></li>
+                    <li><a href="#about" class="nav-link" data-section="about">About</a></li>
+                    <li><a href="#meeting" class="nav-link" data-section="meeting">Book Meeting</a></li>
+                    <li><a href="#contact" class="nav-link" data-section="contact">Contact</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            
+            <div class="hero">
+                <div class="hero-content">
+                    <div class="logo-container">
+                        <div class="logo">
+                            <div class="logo-inner">
+                                <img src="assets/semigasLogo.png" alt="Semigas Logo" class="semigas-logo" draggable="false">
+                            </div>
+                        </div>
+                    </div>
+                    <p class="hero-subtitle">Advanced Semiconductor Controllers for Modern Manufacturing</p>
+                    <div class="hero-buttons">
+                        <button class="btn btn-primary" data-section="about">Learn More</button>
+                        <button class="btn btn-secondary" data-section="meeting">Book Meeting</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section">
+            <div class="container">
+                <h2 class="section-title">About Me</h2>
+                <div class="about-content">
+                    <div class="about-text">
+                        <p>We are working on creating a new website for Semigas Solutions. This website will be used to showcase our products and services.</p>
+                        <div class="skills">
+                            <div class="skill-item">
+                                <div class="skill-icon">💻</div>
+                                <h3>Solutions</h3>
+                                <p>Advanced Semiconductor Controllers for Modern Manufacturing</p>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-icon">🔧</div>
+                                <h3>Design</h3>
+                                <p>Designing solutions that are easy to use and understand</p>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-icon">🚀</div>
+                                <h3>Innovation</h3>
+                                <p>innovative designs, innovative solutions</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about-visual">
+                        <div class="animated-shape shape-1"></div>
+                        <div class="animated-shape shape-2"></div>
+                        <div class="animated-shape shape-3"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Book a Meeting Section -->
+        <section id="meeting" class="section">
+            <div class="container">
+                <h2 class="section-title">Schedule a Meeting</h2>
+                <div class="meeting-content">
+                    <div class="meeting-info">
+                        <h3>Ready to discuss your semiconductor needs?</h3>
+                        <p>Book a personalized consultation with our engineering team to explore how Semigas Solutions can optimize your semiconductor manufacturing processes.</p>
+                        <div class="meeting-features">
+                            <div class="feature-item">
+                                <div class="feature-icon">⚡</div>
+                                <h4>Technical Consultation</h4>
+                                <p>Expert analysis of your current semiconductor setup</p>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">🔧</div>
+                                <h4>Custom Solutions</h4>
+                                <p>Tailored controller designs for your specific needs</p>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">📈</div>
+                                <h4>Performance Optimization</h4>
+                                <p>Data-driven improvements for maximum efficiency</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="meeting-booking">
+                        <div class="booking-card">
+                            <h4>Schedule Your Consultation</h4>
+                            <div class="meeting-info-card">
+                                <div class="meeting-details">
+                                    <h5>30-Minute Technical Consultation</h5>
+                                    <p>Free consultation to discuss your semiconductor needs</p>
+                                    <div class="meeting-highlights">
+                                        <div class="highlight-item">
+                                            <span class="highlight-icon">⚡</span>
+                                            <span>Expert analysis of your current setup</span>
+                                        </div>
+                                        <div class="highlight-item">
+                                            <span class="highlight-icon">🔧</span>
+                                            <span>Custom solution recommendations</span>
+                                        </div>
+                                        <div class="highlight-item">
+                                            <span class="highlight-icon">📈</span>
+                                            <span>Performance optimization insights</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="calendar-embed">
+                                <div class="calendar-placeholder">
+                                    <div class="calendar-icon">📅</div>
+                                    <h5>Calendly Integration</h5>
+                                    <p>Select your preferred date and time for a 30-minute consultation</p>
+                                    <button class="btn btn-primary" id="open-calendar">Schedule Meeting</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section">
+            <div class="container">
+                <h2 class="section-title">Get In Touch</h2>
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <h3>Let's work together</h3>
+                        <p>I'm always interested in new opportunities and exciting projects. Feel free to reach out!</p>
+                        <div class="contact-methods">
+                            <div class="contact-method">
+                                <div class="contact-icon">📧</div>
+                                <span>contact@semigassolutions.com</span>
+                            </div>
+                            <div class="contact-method">
+                                <div class="contact-icon">📱</div>
+                                <span>+1 (555) 123-4567</span>
+                            </div>
+                            <div class="contact-method">
+                                <div class="contact-icon">📍</div>
+                                <span>Boise, Idaho</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contact-form">
+                        <form>
+                            <div class="form-group">
+                                <input type="text" placeholder="Your Name" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" placeholder="Your Email" required>
+                            </div>
+                            <div class="form-group">
+                                <textarea placeholder="Your Message" rows="5" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
