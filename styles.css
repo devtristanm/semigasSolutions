@@ -285,13 +285,16 @@ html::-webkit-scrollbar {
 
 /* Main Content */
 .main-content {
-    min-height: 100vh;
+    height: 100%;
+    width: 100%;
     background: linear-gradient(135deg, #0a0a0a 0%, #1a0a1a 25%, #0a1a1a 50%, #1a0a0a 75%, #0a0a0a 100%);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 #home {
     position: relative;
-    min-height: 100vh;
+    height: 100%;
     padding: 0;
     margin: 0;
     background: linear-gradient(135deg, #0a0a0a 0%, #1a0a1a 25%, #0a1a1a 50%, #1a0a0a 75%, #0a0a0a 100%);
@@ -938,7 +941,6 @@ html::-webkit-scrollbar {
     .hero {
         flex-direction: column;
         text-align: center;
-        padding: 2rem;
     }
 
     .hero-title {
