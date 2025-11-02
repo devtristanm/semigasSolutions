@@ -187,6 +187,9 @@ function setupEventListeners() {
         }
     });
     
+    // Modal functionality
+    setupModalListeners();
+    
     // Scroll indicator click
     const scrollIndicator = document.querySelector('.scroll-indicator');
     if (scrollIndicator) {
@@ -437,3 +440,67 @@ function preloadImages() {
 
 // Initialize image preloading
 preloadImages();
+
+// Modal functionality
+function setupModalListeners() {
+    const modal = document.getElementById('modal');
+    const modalTitle = modal.querySelector('.modal-title');
+    const modalDescription = modal.querySelector('.modal-description');
+    const modalIcon = modal.querySelector('.modal-icon');
+    const modalClose = modal.querySelector('.modal-close');
+    const skillItems = document.querySelectorAll('.skill-item[data-modal]');
+    
+    // Modal data
+    const modalData = {
+        solutions: {
+            icon: '💻',
+            title: 'Advanced Solutions',
+            description: 'Our cutting-edge semiconductor controllers are designed to meet the demanding requirements of modern manufacturing. We provide precision control systems that optimize production efficiency, reduce downtime, and ensure consistent quality across all manufacturing processes. Our solutions integrate seamlessly with existing infrastructure while delivering measurable improvements in performance and reliability.'
+        },
+        design: {
+            icon: '🔧',
+            title: 'Intuitive Design',
+            description: 'We believe technology should be accessible and easy to use. Our design philosophy centers on creating intuitive interfaces that require minimal training. Every product is carefully crafted with the end-user in mind, featuring clear visual feedback, logical workflows, and responsive controls. We combine aesthetic excellence with functional design to create solutions that operators actually want to use.'
+        },
+        innovation: {
+            icon: '🚀',
+            title: 'Continuous Innovation',
+            description: 'Staying ahead in semiconductor manufacturing requires constant innovation. Our engineering team is dedicated to pushing the boundaries of what\'s possible, developing next-generation technologies that anticipate future industry needs. We invest heavily in R&D, collaborate with leading research institutions, and maintain a culture of experimentation to bring breakthrough solutions to market.'
+        }
+    };
+    
+    // Open modal when skill item is clicked
+    skillItems.forEach(item => {
+        item.addEventListener('click', function() {
+            const modalType = this.getAttribute('data-modal');
+            const data = modalData[modalType];
+            
+            if (data) {
+                modalIcon.textContent = data.icon;
+                modalTitle.textContent = data.title;
+                modalDescription.textContent = data.description;
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        });
+    });
+    
+    // Close modal when close button is clicked
+    modalClose.addEventListener('click', closeModal);
+    
+    // Close modal when backdrop is clicked
+    modal.querySelector('.modal-backdrop').addEventListener('click', closeModal);
+    
+    // Close modal when Escape key is pressed
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeModal();
+        }
+    });
+}
+
+function closeModal() {
+    const modal = document.getElementById('modal');
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+}

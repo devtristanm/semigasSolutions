@@ -506,6 +506,7 @@ html::-webkit-scrollbar {
     border-color: #3BFFFF;
     box-shadow: 0 10px 30px rgba(59, 255, 255, 0.3);
     background: rgba(59, 255, 255, 0.05);
+    cursor: pointer;
 }
 
 .skill-icon {
@@ -1013,5 +1014,160 @@ html::-webkit-scrollbar {
 
     .semigas-logo {
         filter: drop-shadow(0 0 12px rgba(59, 255, 255, 0.6)) brightness(1.2) contrast(1.2);
+    }
+}
+
+/* Modal Styles */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal.active {
+    display: flex;
+    opacity: 1;
+}
+
+.modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+}
+
+.modal-content {
+    position: relative;
+    background: rgba(10, 10, 10, 0.95);
+    border: 2px solid rgba(59, 255, 255, 0.3);
+    border-radius: 20px;
+    padding: 3rem;
+    max-width: 600px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    z-index: 1001;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 20px 60px rgba(59, 255, 255, 0.2);
+}
+
+.modal.active .modal-content {
+    transform: scale(1);
+}
+
+.modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: transparent;
+    border: none;
+    color: #3BFFFF;
+    font-size: 2.5rem;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    line-height: 1;
+}
+
+.modal-close:hover {
+    color: #F10092;
+    transform: rotate(90deg);
+    background: rgba(59, 255, 255, 0.1);
+    text-shadow: 0 0 15px rgba(241, 0, 146, 0.5);
+}
+
+.modal-body {
+    text-align: center;
+}
+
+.modal-icon {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    animation: float 2s ease-in-out infinite;
+}
+
+.modal-title {
+    font-size: 2rem;
+    color: #3BFFFF;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 0 15px rgba(59, 255, 255, 0.5);
+}
+
+.modal-description {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #cccccc;
+}
+
+/* Modal Responsive Design */
+@media (max-width: 768px) {
+    .modal-content {
+        padding: 2rem 1.5rem;
+        width: 95%;
+    }
+    
+    .modal-close {
+        top: 0.5rem;
+        right: 0.5rem;
+        font-size: 2rem;
+        width: 35px;
+        height: 35px;
+    }
+    
+    .modal-icon {
+        font-size: 3rem;
+    }
+    
+    .modal-title {
+        font-size: 1.5rem;
+    }
+    
+    .modal-description {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-content {
+        padding: 1.5rem 1rem;
+    }
+    
+    .modal-close {
+        font-size: 1.8rem;
+        width: 30px;
+        height: 30px;
+    }
+    
+    .modal-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .modal-title {
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+    }
+    
+    .modal-description {
+        font-size: 0.95rem;
+        line-height: 1.6;
     }
 }

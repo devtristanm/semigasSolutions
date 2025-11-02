@@ -56,22 +56,22 @@
         <!-- About Section -->
         <section id="about" class="section">
             <div class="container">
-                <h2 class="section-title">About Semigas Solutions</h2>
+                <h2 class="section-title">About Our Team</h2>
                 <div class="about-content">
                     <div class="about-text">
                         <p>We are working on creating a new website for Semigas Solutions. This website will be used to showcase our products and services.</p>
                         <div class="skills">
-                            <div class="skill-item">
+                            <div class="skill-item" data-modal="solutions">
                                 <div class="skill-icon">💻</div>
                                 <h3>Solutions</h3>
                                 <p>Advanced Semiconductor Controllers for Modern Manufacturing</p>
                             </div>
-                            <div class="skill-item">
+                            <div class="skill-item" data-modal="design">
                                 <div class="skill-icon">🔧</div>
                                 <h3>Design</h3>
                                 <p>Designing solutions that are easy to use and understand</p>
                             </div>
-                            <div class="skill-item">
+                            <div class="skill-item" data-modal="innovation">
                                 <div class="skill-icon">🚀</div>
                                 <h3>Innovation</h3>
                                 <p>innovative designs, innovative solutions</p>
@@ -157,7 +157,7 @@
                 <div class="contact-content">
                     <div class="contact-info">
                         <h3>Let's work together</h3>
-                        <p>I'm always interested in new opportunities and exciting projects. Feel free to reach out!</p>
+                        <p>If you have any questions or would like to know more about Semigas Solutions, please feel free to reach out!</p>
                         <div class="contact-methods">
                             <div class="contact-method">
                                 <div class="contact-icon">📧</div>
@@ -190,6 +190,19 @@
                 </div>
             </div>
         </section>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <div class="modal-body">
+                <div class="modal-icon"></div>
+                <h2 class="modal-title"></h2>
+                <p class="modal-description"></p>
+            </div>
+        </div>
     </div>
 
     <script src="script.js"></script>
