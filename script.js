@@ -50,6 +50,15 @@ function closeMobileMenu() {
     isMenuOpen = false;
 }
 
+// Scroll to top function
+function scrollToTop() {
+    mainContent.scrollTop = 0;
+    // Also try window.scrollTo as fallback
+    if (window.scrollTo) {
+        window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+}
+
 // Show specific section with animation
 function showSection(sectionId) {
     if (isTransitioning) return;
@@ -82,6 +91,9 @@ function showSection(sectionId) {
         updateNavigation(sectionId);
         
         currentSection = sectionId;
+        
+        // Scroll to top when changing sections
+        scrollToTop();
         
         // Hide atom loader
         hideAtomLoader();

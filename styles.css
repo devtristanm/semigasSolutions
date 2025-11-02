@@ -3,6 +3,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -19,6 +20,7 @@ body {
     height: 100%;
     width: 100%;
     position: fixed;
+    touch-action: pan-y;
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
@@ -235,6 +237,8 @@ html::-webkit-scrollbar {
     font-weight: 500;
     transition: all 0.3s ease;
     position: relative;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
 .nav-link:hover {
@@ -272,6 +276,8 @@ html::-webkit-scrollbar {
     display: none;
     flex-direction: column;
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
 .bar {
@@ -412,6 +418,8 @@ html::-webkit-scrollbar {
     transition: all 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 1px;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
 .btn-primary {
@@ -507,6 +515,8 @@ html::-webkit-scrollbar {
     transition: all 0.3s ease;
     animation: slideInUp 0.6s ease-out;
     backdrop-filter: blur(10px);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
 .skill-item:hover {
@@ -913,6 +923,24 @@ html::-webkit-scrollbar {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    /* Optimize animations for mobile */
+    * {
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    /* Reduce padding and margins for mobile */
+    .container {
+        padding: 0 15px;
+    }
+    
+    .navbar {
+        padding: 0.75rem 0;
+    }
+    
+    .section {
+        padding: 60px 0;
+    }
+    
     .hamburger {
         display: flex;
     }
@@ -928,6 +956,8 @@ html::-webkit-scrollbar {
         transition: 0.3s;
         padding: 2rem 0;
         backdrop-filter: blur(10px);
+        max-height: calc(100vh - 70px);
+        overflow-y: auto;
     }
 
     .nav-menu.active {
@@ -950,6 +980,7 @@ html::-webkit-scrollbar {
     .hero-buttons {
         justify-content: center;
         flex-wrap: wrap;
+        gap: 0.75rem;
     }
 
     .about-content,
@@ -965,6 +996,7 @@ html::-webkit-scrollbar {
 
     .section-title {
         font-size: 2rem;
+        margin-bottom: 2rem;
     }
 
     .logo {
@@ -984,25 +1016,80 @@ html::-webkit-scrollbar {
     .semigas-logo {
         filter: drop-shadow(0 0 15px rgba(59, 255, 255, 0.7)) brightness(1.2) contrast(1.2);
     }
+    
+    /* Optimize skill items */
+    .skill-item {
+        padding: 1.5rem;
+    }
+    
+    /* Optimize buttons */
+    .btn {
+        padding: 10px 24px;
+        font-size: 0.95rem;
+    }
+    
+    /* Reduce gap in hero content */
+    #home .hero-content {
+        gap: 1.5rem;
+    }
+    
+    /* Optimize meeting and contact sections */
+    .feature-item,
+    .contact-method {
+        padding: 1.25rem;
+    }
+    
+    /* Better spacing for forms */
+    .form-group {
+        margin-bottom: 1rem;
+    }
+    
+    .meeting-highlights,
+    .contact-methods {
+        gap: 0.75rem;
+    }
 
 }
 
 @media (max-width: 480px) {
+    /* Further reduce padding for small screens */
+    .container {
+        padding: 0 12px;
+    }
+    
+    .navbar {
+        padding: 0.5rem 0;
+    }
+    
+    .section {
+        padding: 40px 0;
+    }
+    
     .hero-title {
         font-size: 2rem;
     }
 
     .hero-subtitle {
         font-size: 1.2rem;
+        margin-bottom: 1.5rem;
     }
 
     .btn {
         padding: 10px 20px;
         font-size: 0.9rem;
+        width: 100%;
+        max-width: 280px;
+    }
+    
+    .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
     }
 
-    .section {
-        padding: 80px 0;
+    .section-title {
+        font-size: 1.75rem;
+        margin-bottom: 1.5rem;
     }
 
     .logo {
@@ -1021,6 +1108,39 @@ html::-webkit-scrollbar {
 
     .semigas-logo {
         filter: drop-shadow(0 0 12px rgba(59, 255, 255, 0.6)) brightness(1.2) contrast(1.2);
+    }
+    
+    /* Optimize spacing further */
+    .skill-item {
+        padding: 1.25rem;
+    }
+    
+    .about-text > p,
+    .meeting-info > p,
+    .contact-info > p {
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+    
+    .feature-item h4,
+    .skill-item h3,
+    .contact-method span {
+        font-size: 1.1rem;
+    }
+    
+    .nav-logo {
+        font-size: 1.25rem;
+    }
+    
+    #home .hero-content {
+        gap: 1.25rem;
+        padding: 0 15px;
+    }
+    
+    .meeting-info-card,
+    .booking-card,
+    .contact-form {
+        padding: 1.5rem;
     }
 }
 
