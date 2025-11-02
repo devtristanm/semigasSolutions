@@ -162,31 +162,6 @@ function setupEventListeners() {
         }
     });
     
-    // Close mobile menu when scrolling
-    document.addEventListener('scroll', function() {
-        if (isMenuOpen) {
-            closeMobileMenu();
-        }
-    });
-    
-    // Close mobile menu on touch/scroll for mobile devices
-    let touchStartY = 0;
-    document.addEventListener('touchstart', function(e) {
-        touchStartY = e.touches[0].clientY;
-    });
-    
-    document.addEventListener('touchmove', function(e) {
-        if (isMenuOpen) {
-            const touchY = e.touches[0].clientY;
-            const diff = Math.abs(touchY - touchStartY);
-            
-            // Close menu if user scrolls more than 10px
-            if (diff > 10) {
-                closeMobileMenu();
-            }
-        }
-    });
-    
     // Modal functionality
     setupModalListeners();
     
@@ -352,20 +327,6 @@ function debounce(func, wait) {
     };
 }
 
-// Add smooth scrolling for any anchor links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    });
-});
-
 // Add resize handler for responsive adjustments
 window.addEventListener('resize', debounce(function() {
     // Close mobile menu on resize
@@ -373,37 +334,6 @@ window.addEventListener('resize', debounce(function() {
         closeMobileMenu();
     }
 }, 250));
-
-// Add touch support for mobile
-let touchStartY = 0;
-let touchEndY = 0;
-
-document.addEventListener('touchstart', function(e) {
-    touchStartY = e.changedTouches[0].screenY;
-});
-
-document.addEventListener('touchend', function(e) {
-    touchEndY = e.changedTouches[0].screenY;
-    handleSwipe();
-});
-
-function handleSwipe() {
-    const swipeThreshold = 50;
-    const diff = touchStartY - touchEndY;
-    
-    if (Math.abs(diff) > swipeThreshold) {
-        const sections = ['home', 'about', 'meeting', 'contact'];
-        const currentIndex = sections.indexOf(currentSection);
-        
-        if (diff > 0 && currentIndex < sections.length - 1) {
-            // Swipe up - next section
-            showSection(sections[currentIndex + 1]);
-        } else if (diff < 0 && currentIndex > 0) {
-            // Swipe down - previous section
-            showSection(sections[currentIndex - 1]);
-        }
-    }
-}
 
 // Add performance optimization
 function optimizeAnimations() {
