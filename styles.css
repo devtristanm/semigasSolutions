@@ -6,6 +6,33 @@
     -webkit-tap-highlight-color: transparent;
 }
 
+/* Scrollbar styling for desktop/tablet */
+.main-content::-webkit-scrollbar {
+    width: 10px;
+}
+
+.main-content::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.06);
+    border-left: 1px solid rgba(59, 255, 255, 0.12);
+}
+
+.main-content::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, rgba(59, 255, 255, 0.6), rgba(241, 0, 146, 0.6));
+    border-radius: 8px;
+    border: 2px solid rgba(10, 10, 10, 0.9);
+    box-shadow: 0 0 10px rgba(59, 255, 255, 0.25);
+}
+
+.main-content::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, rgba(241, 0, 146, 0.75), rgba(59, 255, 255, 0.75));
+}
+
+/* Firefox */
+.main-content {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(59, 255, 255, 0.6) rgba(255, 255, 255, 0.06);
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #0a0a0a 0%, #1a0a1a 25%, #0a1a1a 50%, #1a0a0a 75%, #0a0a0a 100%);
@@ -296,6 +323,7 @@ html::-webkit-scrollbar {
     background: linear-gradient(135deg, #0a0a0a 0%, #1a0a1a 25%, #0a1a1a 50%, #1a0a0a 75%, #0a0a0a 100%);
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    scrollbar-gutter: stable both-edges;
 }
 
 #home {
@@ -923,6 +951,9 @@ html::-webkit-scrollbar {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    :root { 
+        --nav-height: 80px; 
+    }
     /* Optimize animations for mobile */
     * {
         -webkit-tap-highlight-color: transparent;
@@ -937,6 +968,23 @@ html::-webkit-scrollbar {
         padding: 1rem 0;
         border-bottom: 1px solid rgba(59, 255, 255, 0.15);
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+    }
+
+    .nav-container {
+        min-height: var(--nav-height);
+    }
+
+    .main-content {
+        padding-top: calc(var(--nav-height) + 8px);
+        /* Hide scrollbar on mobile */
+        -ms-overflow-style: none; /* IE/Edge */
+        scrollbar-width: none; /* Firefox */
+    }
+
+    .main-content::-webkit-scrollbar { /* Chrome/Safari/Opera */
+        display: none;
+        width: 0;
+        height: 0;
     }
     
     .section {
@@ -955,16 +1003,26 @@ html::-webkit-scrollbar {
     .nav-menu {
         position: fixed;
         left: -100%;
-        top: 80px;
+        top: var(--nav-height);
         flex-direction: column;
         background-color: rgba(10, 10, 10, 0.95);
         width: 100%;
+        margin: 0;
         text-align: center;
         transition: 0.3s;
-        padding: 2.25rem 0;
+        padding: 1rem 0.5rem;
         backdrop-filter: blur(10px);
-        max-height: calc(100vh - 80px);
+        max-height: min(70vh, calc(100vh - var(--nav-height)));
         overflow-y: auto;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    /* Respect safe areas so nav never overlaps OS UI areas */
+    .nav-container {
+        padding-right: calc(20px + env(safe-area-inset-right));
+        padding-left: calc(20px + env(safe-area-inset-left));
     }
 
     .nav-menu.active {
@@ -972,13 +1030,13 @@ html::-webkit-scrollbar {
     }
 
     .nav-menu li {
-        margin: 1.25rem 0;
+        margin: 0.6rem 0;
     }
 
     .nav-link {
         display: block;
-        padding: 0.75rem 1rem;
-        font-size: 1.1rem;
+        padding: 0.6rem 0.75rem;
+        font-size: 1rem;
     }
 
     .hero {
@@ -1065,6 +1123,9 @@ html::-webkit-scrollbar {
 }
 
 @media (max-width: 480px) {
+    :root { 
+        --nav-height: 76px; 
+    }
     /* Further reduce padding for small screens */
     .container {
         padding: 0 12px;
@@ -1075,6 +1136,16 @@ html::-webkit-scrollbar {
         border-bottom: 1px solid rgba(59, 255, 255, 0.15);
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
     }
+
+    .nav-container {
+        min-height: var(--nav-height);
+    }
+
+    .main-content {
+        padding-top: calc(var(--nav-height) + 8px);
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
     .hamburger .bar {
         width: 26px;
         height: 3.5px;
@@ -1082,9 +1153,20 @@ html::-webkit-scrollbar {
     }
 
     .nav-menu {
-        top: 76px;
-        max-height: calc(100vh - 76px);
+        top: var(--nav-height);
+        max-height: calc(100vh - var(--nav-height));
         padding: 2rem 0;
+    }
+
+    .main-content::-webkit-scrollbar {
+        display: none;
+        width: 0;
+        height: 0;
+    }
+
+    .nav-container {
+        padding-right: calc(20px + env(safe-area-inset-right));
+        padding-left: calc(20px + env(safe-area-inset-left));
     }
 
     .nav-link {
