@@ -250,6 +250,8 @@ html::-webkit-scrollbar {
     -webkit-text-fill-color: transparent;
     background-clip: text;
     text-shadow: 0 0 10px rgba(59, 255, 255, 0.3);
+    text-decoration: none;
+    cursor: pointer;
 }
 
 .nav-menu {
@@ -332,8 +334,108 @@ html::-webkit-scrollbar {
     padding: 0;
     margin: 0;
     background: linear-gradient(135deg, #0a0a0a 0%, #1a0a1a 25%, #0a1a1a 50%, #1a0a0a 75%, #0a0a0a 100%);
-    background-size: 300% 300%;
-    animation: gradientShift 12s ease-in-out infinite;
+    overflow: hidden;
+}
+
+/* Subtle animated circuit background overlay */
+.circuit-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 1;
+    background-image:
+        /* base grid */
+        repeating-linear-gradient(90deg, rgba(59, 255, 255, 0.08) 0 1px, transparent 1px 64px),
+        repeating-linear-gradient(0deg, rgba(241, 0, 146, 0.06) 0 1px, transparent 1px 64px),
+        /* electric current overlays */
+        repeating-linear-gradient(90deg, transparent 0 60px, rgba(59, 255, 255, 0.18) 60px 64px),
+        repeating-linear-gradient(0deg, transparent 0 60px, rgba(59, 255, 255, 0.14) 60px 64px);
+    background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+    background-position: 0 0, 0 0, 0 0, 0 0;
+    mix-blend-mode: normal;
+    animation: none;
+    display: none; /* hide symmetric grid to favor organic svg */
+}
+
+.circuit-bg::after {
+    content: '';
+    position: absolute;
+    inset: -20%;
+    background:
+        radial-gradient(8px 8px at 0% 50%, rgba(59,255,255,0.25), transparent 60%),
+        radial-gradient(8px 8px at 50% 0%, rgba(241,0,146,0.18), transparent 60%),
+        radial-gradient(8px 8px at 100% 50%, rgba(59,255,255,0.22), transparent 60%),
+        radial-gradient(8px 8px at 50% 100%, rgba(212,25,219,0.16), transparent 60%);
+    background-repeat: no-repeat;
+    filter: blur(0.2px) drop-shadow(0 0 6px rgba(59,255,255,0.2));
+    animation: none;
+}
+
+@keyframes circuitFlow {
+    0% {
+        background-position:
+            0 0,                /* base vertical grid */
+            0 0,                /* base horizontal grid */
+            0 0,                /* current horizontal */
+            0 0;                /* current vertical */
+    }
+    50% {
+        background-position:
+            0 0,
+            0 0,
+            64px 0,             /* move horizontal current one cell */
+            0 64px;             /* move vertical current one cell */
+    }
+    100% {
+        background-position:
+            0 0,
+            0 0,
+            128px 0,
+            0 128px;
+    }
+}
+
+@keyframes circuitMove {
+    0% { transform: translate3d(-5%, -5%, 0); }
+    50% { transform: translate3d(5%, 5%, 0); }
+    100% { transform: translate3d(-5%, -5%, 0); }
+}
+
+/* Organic SVG circuit overlays (corners) */
+.circuit-svg {
+    position: absolute;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.9;
+    display: none; /* hide circuit overlays for now */
+}
+.circuit-frame {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: none; /* ensure main frame is hidden */
+}
+
+.trace {
+    stroke-dasharray: none;
+    animation: none !important;
+    opacity: 0.5;
+}
+.pulse-a, .pulse-b, .pulse-c, .pulse-d { animation: none !important; }
+
+/* current glow handled via SVG animateMotion in index.html */
+
+/* Ensure hero content sits above visuals */
+#home .hero { z-index: 2; position: relative; }
+
+@media (max-width: 768px) {
+    .current-glow {
+        width: 14px;
+        height: 10px;
+        border-radius: 5px;
+        animation-duration: 6.5s;
+    }
 }
 
 /* Sections */
