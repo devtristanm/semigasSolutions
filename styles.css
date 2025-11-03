@@ -934,7 +934,9 @@ html::-webkit-scrollbar {
     }
     
     .navbar {
-        padding: 0.75rem 0;
+        padding: 1rem 0;
+        border-bottom: 1px solid rgba(59, 255, 255, 0.15);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
     }
     
     .section {
@@ -944,19 +946,24 @@ html::-webkit-scrollbar {
     .hamburger {
         display: flex;
     }
+    .hamburger .bar {
+        width: 28px;
+        height: 3.5px;
+        margin: 4px 0;
+    }
 
     .nav-menu {
         position: fixed;
         left: -100%;
-        top: 70px;
+        top: 80px;
         flex-direction: column;
         background-color: rgba(10, 10, 10, 0.95);
         width: 100%;
         text-align: center;
         transition: 0.3s;
-        padding: 2rem 0;
+        padding: 2.25rem 0;
         backdrop-filter: blur(10px);
-        max-height: calc(100vh - 70px);
+        max-height: calc(100vh - 80px);
         overflow-y: auto;
     }
 
@@ -965,7 +972,13 @@ html::-webkit-scrollbar {
     }
 
     .nav-menu li {
-        margin: 1rem 0;
+        margin: 1.25rem 0;
+    }
+
+    .nav-link {
+        display: block;
+        padding: 0.75rem 1rem;
+        font-size: 1.1rem;
     }
 
     .hero {
@@ -1058,7 +1071,25 @@ html::-webkit-scrollbar {
     }
     
     .navbar {
-        padding: 0.5rem 0;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid rgba(59, 255, 255, 0.15);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+    }
+    .hamburger .bar {
+        width: 26px;
+        height: 3.5px;
+        margin: 4px 0;
+    }
+
+    .nav-menu {
+        top: 76px;
+        max-height: calc(100vh - 76px);
+        padding: 2rem 0;
+    }
+
+    .nav-link {
+        font-size: 1.15rem;
+        padding: 0.85rem 1rem;
     }
     
     .section {
