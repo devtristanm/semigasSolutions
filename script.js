@@ -283,23 +283,23 @@ style.textContent = `
     
     .hamburger .bar {
         transform-origin: center;
-        transition: transform 0.3s ease, opacity 0.2s ease;
+        transition: transform 0.25s ease, opacity 0.2s ease;
     }
     .hamburger.active .bar:nth-child(2) {
         opacity: 0;
     }
     .hamburger.active .bar:nth-child(1) {
-        transform: translateY(7px) rotate(45deg);
+        transform: translateY(6px) rotate(45deg);
     }
     .hamburger.active .bar:nth-child(3) {
-        transform: translateY(-7px) rotate(-45deg);
+        transform: translateY(-6px) rotate(-45deg);
     }
     @media (max-width: 768px) {
         .hamburger.active .bar:nth-child(1) {
-            transform: translateY(7px) rotate(45deg);
+            transform: translateY(6px) rotate(45deg);
         }
         .hamburger.active .bar:nth-child(3) {
-            transform: translateY(-7px) rotate(-45deg);
+            transform: translateY(-6px) rotate(-45deg);
         }
     }
     

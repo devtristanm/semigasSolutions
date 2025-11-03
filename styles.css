@@ -1077,7 +1077,7 @@ html::-webkit-scrollbar {
     }
 
     .main-content {
-        padding-top: calc(var(--nav-height) + 8px);
+        padding-top: calc(var(--nav-height) + 2px);
         /* Hide scrollbar on mobile */
         -ms-overflow-style: none; /* IE/Edge */
         scrollbar-width: none; /* Firefox */
@@ -1095,11 +1095,16 @@ html::-webkit-scrollbar {
     
     .hamburger {
         display: flex;
+        width: 40px;
+        height: 32px;
+        align-items: center;
+        justify-content: center;
+        padding: 4px;
     }
     .hamburger .bar {
         width: 28px;
         height: 3.5px;
-        margin: 4px 0;
+        margin: 3px 0;
     }
 
     .nav-menu {
@@ -1112,7 +1117,7 @@ html::-webkit-scrollbar {
         margin: 0;
         text-align: center;
         transition: 0.3s;
-        padding: 1rem 0.5rem;
+        padding: 0.5rem 0.5rem;
         backdrop-filter: blur(10px);
         max-height: min(70vh, calc(100vh - var(--nav-height)));
         overflow-y: auto;
@@ -1132,13 +1137,13 @@ html::-webkit-scrollbar {
     }
 
     .nav-menu li {
-        margin: 0.6rem 0;
+        margin: 0.4rem 0;
     }
 
     .nav-link {
         display: block;
-        padding: 0.6rem 0.75rem;
-        font-size: 1rem;
+        padding: 0.5rem 0.75rem;
+        font-size: 0.98rem;
     }
 
     .hero {
@@ -1244,7 +1249,7 @@ html::-webkit-scrollbar {
     }
 
     .main-content {
-        padding-top: calc(var(--nav-height) + 8px);
+        padding-top: calc(var(--nav-height) + 2px);
         -ms-overflow-style: none;
         scrollbar-width: none;
     }
@@ -1257,7 +1262,7 @@ html::-webkit-scrollbar {
     .nav-menu {
         top: var(--nav-height);
         max-height: calc(100vh - var(--nav-height));
-        padding: 2rem 0;
+        padding: 0.5rem 0;
     }
 
     .main-content::-webkit-scrollbar {
@@ -1272,8 +1277,8 @@ html::-webkit-scrollbar {
     }
 
     .nav-link {
-        font-size: 1.15rem;
-        padding: 0.85rem 1rem;
+        font-size: 1rem;
+        padding: 0.55rem 0.75rem;
     }
     
     .section {
