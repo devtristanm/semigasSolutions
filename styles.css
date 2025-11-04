@@ -309,25 +309,28 @@ html::-webkit-scrollbar {
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
     position: relative;
-    border-radius: 12px;
+    border-radius: 8px;
     overflow: visible;
+    align-items: center;
+    justify-content: center;
 }
 
 .bar {
     width: 25px;
     height: 3px;
-    background: linear-gradient(90deg, #3BFFFF, #F10092);
-    background-color: #3BFFFF; /* fallback for devices not rendering gradient strongly */
+    background: #3BFFFF;
+    background-image: linear-gradient(90deg, #3BFFFF, #F10092);
     margin: 3px 0;
-    transition: 0.3s;
-    box-shadow: 0 0 6px rgba(59, 255, 255, 0.6), 0 0 2px rgba(241, 0, 146, 0.5);
+    transition: all 0.3s ease;
+    box-shadow: 0 0 8px rgba(59, 255, 255, 0.8);
     display: block;
-    opacity: 1 !important;
+    opacity: 1;
+    border-radius: 2px;
 }
 
 /* When menu is open, hide the middle bar for a clean X */
 .hamburger.active .bar:nth-child(2) {
-    opacity: 0 !important;
+    opacity: 0;
 }
 
 /* Neon circuit aura and sweep when menu is active */
@@ -1102,6 +1105,7 @@ html::-webkit-scrollbar {
 
     .nav-container {
         min-height: var(--nav-height);
+        position: relative;
     }
 
     .main-content {
@@ -1125,13 +1129,9 @@ html::-webkit-scrollbar {
         padding-top: calc(20px + var(--nav-height));
     }
     
+    /* Simple visible hamburger */
     .hamburger {
         display: flex;
-        width: 42px;
-        height: 34px;
-        align-items: center;
-        justify-content: center;
-        padding: 6px;
         position: absolute;
         top: 50%;
         right: 20px;
@@ -1140,61 +1140,45 @@ html::-webkit-scrollbar {
         opacity: 1;
         visibility: visible;
         pointer-events: auto;
-        background: transparent;
-        border: none;
-        border-radius: 12px;
-        backdrop-filter: none;
-        box-shadow: none;
     }
+    
     .hamburger .bar {
-        width: 28px;
-        height: 3.5px;
+        width: 25px;
+        height: 3px;
         margin: 3px 0;
+        background: #3BFFFF;
+        background-image: linear-gradient(90deg, #3BFFFF, #F10092);
+        box-shadow: 0 0 8px rgba(59, 255, 255, 0.8);
+        opacity: 1;
     }
 
+    /* Simple mobile menu */
     .nav-menu {
         position: fixed;
         left: -100%;
         top: var(--nav-height);
         flex-direction: column;
-        background-color: rgba(10, 10, 10, 0.9); /* match navbar */
+        background-color: rgba(10, 10, 10, 0.95);
         width: 100%;
-        margin: 0;
         text-align: center;
-        transition: 0.3s;
-        padding: 0.5rem 0.5rem;
+        transition: left 0.3s;
+        padding: 1rem 0;
         backdrop-filter: blur(10px);
-        max-height: min(70vh, calc(100vh - var(--nav-height)));
-        overflow-y: auto;
-        border: none;
-        border-radius: 0;
-        box-shadow: none;
         z-index: 6000;
-        opacity: 0;
-        pointer-events: none;
-    }
-
-    /* Respect safe areas so nav never overlaps OS UI areas */
-    .nav-container {
-        padding-right: calc(20px + env(safe-area-inset-right));
-        padding-left: calc(20px + env(safe-area-inset-left));
     }
 
     .nav-menu.active {
-        left: 0 !important;
-        opacity: 1;
-        pointer-events: auto;
-        visibility: visible;
+        left: 0;
     }
 
     .nav-menu li {
-        margin: 0.4rem 0;
+        margin: 0.5rem 0;
     }
 
     .nav-link {
         display: block;
-        padding: 0.5rem 0.75rem;
-        font-size: 0.98rem;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
     }
 
     .hero {
@@ -1306,14 +1290,6 @@ html::-webkit-scrollbar {
 }
 
 @media (max-width: 480px) {
-    /* Ensure hamburger bars stay bold and visible on very small screens */
-    .hamburger .bar {
-        width: 28px;
-        height: 4px;
-        background: #3BFFFF;
-        box-shadow: 0 0 10px rgba(59, 255, 255, 0.8), 0 0 4px rgba(241, 0, 146, 0.6);
-        opacity: 1 !important;
-    }
     :root { 
         --nav-height: 76px; 
     }
@@ -1331,6 +1307,7 @@ html::-webkit-scrollbar {
 
     .nav-container {
         min-height: var(--nav-height);
+        position: relative;
     }
 
     .main-content {
@@ -1338,41 +1315,43 @@ html::-webkit-scrollbar {
         -ms-overflow-style: none;
         scrollbar-width: none;
     }
+    
+    /* Simple visible hamburger for iPhone 14 */
     .hamburger {
-        display: flex !important;
+        display: flex;
         position: absolute;
         top: 50%;
         right: 16px;
         transform: translateY(-50%);
         z-index: 5000;
-        opacity: 1 !important;
-        visibility: visible !important;
+        opacity: 1;
+        visibility: visible;
         pointer-events: auto;
-        width: 42px;
-        height: 34px;
-        padding: 6px;
-        background: transparent;
-        border: none;
-        border-radius: 12px;
-        backdrop-filter: none;
-        box-shadow: none;
     }
+    
     .hamburger .bar {
-        width: 26px;
-        height: 3.5px;
-        margin: 4px 0;
-        background: linear-gradient(90deg, #3BFFFF, #F10092) !important;
-        background-color: #3BFFFF !important;
-        opacity: 1 !important;
+        width: 25px;
+        height: 3px;
+        margin: 3px 0;
+        background: #3BFFFF;
+        background-image: linear-gradient(90deg, #3BFFFF, #F10092);
+        box-shadow: 0 0 8px rgba(59, 255, 255, 0.8);
+        opacity: 1;
+        display: block;
     }
 
     .nav-menu {
         top: var(--nav-height);
-        max-height: calc(100vh - var(--nav-height));
-        padding: 0.5rem 0;
-        z-index: 6000;
-        opacity: 0;
-        pointer-events: none;
+        padding: 1rem 0;
+    }
+    
+    .nav-menu.active {
+        left: 0;
+    }
+    
+    .nav-link {
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
     }
 
     /* Tighten home hero spacing under navbar on very small screens */
