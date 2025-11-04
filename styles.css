@@ -240,6 +240,7 @@ html::-webkit-scrollbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
 }
 
 .nav-logo {
@@ -307,16 +308,32 @@ html::-webkit-scrollbar {
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
+    position: relative;
+    border-radius: 12px;
+    overflow: visible;
 }
 
 .bar {
     width: 25px;
     height: 3px;
     background: linear-gradient(90deg, #3BFFFF, #F10092);
+    background-color: #3BFFFF; /* fallback for devices not rendering gradient strongly */
     margin: 3px 0;
     transition: 0.3s;
-    box-shadow: 0 0 5px rgba(59, 255, 255, 0.3);
+    box-shadow: 0 0 6px rgba(59, 255, 255, 0.6), 0 0 2px rgba(241, 0, 146, 0.5);
+    display: block;
+    opacity: 1 !important;
 }
+
+/* When menu is open, hide the middle bar for a clean X */
+.hamburger.active .bar:nth-child(2) {
+    opacity: 0 !important;
+}
+
+/* Neon circuit aura and sweep when menu is active */
+/* Remove neon outline/animation */
+.hamburger::before,
+.hamburger::after { content: none !important; }
 
 /* Main Content */
 .main-content {
@@ -1077,7 +1094,7 @@ html::-webkit-scrollbar {
     }
 
     .main-content {
-        padding-top: calc(var(--nav-height) - 8px);
+        padding-top: var(--nav-height);
         /* Hide scrollbar on mobile */
         -ms-overflow-style: none; /* IE/Edge */
         scrollbar-width: none; /* Firefox */
@@ -1092,18 +1109,31 @@ html::-webkit-scrollbar {
     .section {
         padding: 60px 0;
     }
+    /* Ensure non-home sections have extra top spacing below navbar on mobile */
+    .section:not(#home) {
+        padding-top: calc(20px + var(--nav-height));
+    }
     
     .hamburger {
         display: flex;
-        width: 40px;
-        height: 32px;
+        width: 42px;
+        height: 34px;
         align-items: center;
         justify-content: center;
-        padding: 4px;
-        position: fixed;
-        top: 14px;
+        padding: 6px;
+        position: absolute;
+        top: 50%;
         right: 20px;
+        transform: translateY(-50%);
         z-index: 2100;
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        background: transparent;
+        border: none;
+        border-radius: 12px;
+        backdrop-filter: none;
+        box-shadow: none;
     }
     .hamburger .bar {
         width: 28px;
@@ -1116,7 +1146,7 @@ html::-webkit-scrollbar {
         left: -100%;
         top: var(--nav-height);
         flex-direction: column;
-        background-color: rgba(10, 10, 10, 0.95);
+        background-color: rgba(10, 10, 10, 0.9); /* match navbar */
         width: 100%;
         margin: 0;
         text-align: center;
@@ -1128,7 +1158,9 @@ html::-webkit-scrollbar {
         border: none;
         border-radius: 0;
         box-shadow: none;
-        z-index: 1000;
+        z-index: 6000;
+        opacity: 0;
+        pointer-events: none;
     }
 
     /* Respect safe areas so nav never overlaps OS UI areas */
@@ -1138,7 +1170,10 @@ html::-webkit-scrollbar {
     }
 
     .nav-menu.active {
-        left: 0;
+        left: 0 !important;
+        opacity: 1;
+        pointer-events: auto;
+        visibility: visible;
     }
 
     .nav-menu li {
@@ -1240,6 +1275,14 @@ html::-webkit-scrollbar {
 }
 
 @media (max-width: 480px) {
+    /* Ensure hamburger bars stay bold and visible on very small screens */
+    .hamburger .bar {
+        width: 28px;
+        height: 4px;
+        background: #3BFFFF;
+        box-shadow: 0 0 10px rgba(59, 255, 255, 0.8), 0 0 4px rgba(241, 0, 146, 0.6);
+        opacity: 1 !important;
+    }
     :root { 
         --nav-height: 76px; 
     }
@@ -1252,6 +1295,7 @@ html::-webkit-scrollbar {
         padding: 0.75rem 0;
         border-bottom: 1px solid rgba(59, 255, 255, 0.15);
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+        z-index: 4000;
     }
 
     .nav-container {
@@ -1259,16 +1303,28 @@ html::-webkit-scrollbar {
     }
 
     .main-content {
-        padding-top: calc(var(--nav-height) - 10px);
+        padding-top: var(--nav-height);
         -ms-overflow-style: none;
         scrollbar-width: none;
     }
-    .hamburger { 
-        display: flex; 
-        position: fixed; 
-        top: 12px; 
-        right: 16px; 
-        z-index: 2100; 
+    .hamburger {
+        display: flex !important;
+        position: absolute;
+        top: 50%;
+        right: 16px;
+        transform: translateY(-50%);
+        z-index: 5000;
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto;
+        width: 42px;
+        height: 34px;
+        padding: 6px;
+        background: transparent;
+        border: none;
+        border-radius: 12px;
+        backdrop-filter: none;
+        box-shadow: none;
     }
     .hamburger .bar {
         width: 26px;
@@ -1280,18 +1336,23 @@ html::-webkit-scrollbar {
         top: var(--nav-height);
         max-height: calc(100vh - var(--nav-height));
         padding: 0.5rem 0;
-        z-index: 1000;
+        z-index: 6000;
+        opacity: 0;
+        pointer-events: none;
     }
 
-    /* Lift home hero and prevent overlap under small navbar */
+    /* Tighten home hero spacing under navbar on very small screens */
+    .hero { 
+        min-height: 100vh; 
+    }
     #home .hero {
-        min-height: calc(100vh - var(--nav-height) - 16px);
-        padding-top: 8px;
+        min-height: calc(100vh - var(--nav-height));
+        padding-top: 0;
     }
 
     /* Give more breathing room for non-home sections under navbar */
     .section:not(#home) {
-        padding-top: calc(90px + var(--nav-height));
+        padding-top: calc(24px + var(--nav-height));
     }
 
     .main-content::-webkit-scrollbar {
@@ -1388,7 +1449,7 @@ html::-webkit-scrollbar {
 
     /* Further reduce logo bottom spacing on small screens */
     .logo-container {
-        margin: 0 auto 0.75rem auto;
+        margin: 0 auto 0.5rem auto;
     }
     
     .meeting-info-card,
@@ -1396,6 +1457,8 @@ html::-webkit-scrollbar {
     .contact-form {
         padding: 1.5rem;
     }
+    /* Form X on open: hide middle bar */
+    .hamburger.active .bar:nth-child(2) { opacity: 0 !important; }
 }
 
 /* Modal Styles */
