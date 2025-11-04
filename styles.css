@@ -1263,6 +1263,13 @@ html::-webkit-scrollbar {
         -ms-overflow-style: none;
         scrollbar-width: none;
     }
+    .hamburger { 
+        display: flex; 
+        position: fixed; 
+        top: 12px; 
+        right: 16px; 
+        z-index: 2100; 
+    }
     .hamburger .bar {
         width: 26px;
         height: 3.5px;
@@ -1274,6 +1281,17 @@ html::-webkit-scrollbar {
         max-height: calc(100vh - var(--nav-height));
         padding: 0.5rem 0;
         z-index: 1000;
+    }
+
+    /* Lift home hero and prevent overlap under small navbar */
+    #home .hero {
+        min-height: calc(100vh - var(--nav-height) - 16px);
+        padding-top: 8px;
+    }
+
+    /* Give more breathing room for non-home sections under navbar */
+    .section:not(#home) {
+        padding-top: calc(90px + var(--nav-height));
     }
 
     .main-content::-webkit-scrollbar {
