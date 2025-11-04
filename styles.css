@@ -1077,7 +1077,7 @@ html::-webkit-scrollbar {
     }
 
     .main-content {
-        padding-top: calc(var(--nav-height) + 2px);
+        padding-top: calc(var(--nav-height) - 8px);
         /* Hide scrollbar on mobile */
         -ms-overflow-style: none; /* IE/Edge */
         scrollbar-width: none; /* Firefox */
@@ -1100,6 +1100,8 @@ html::-webkit-scrollbar {
         align-items: center;
         justify-content: center;
         padding: 4px;
+        position: relative;
+        z-index: 1001;
     }
     .hamburger .bar {
         width: 28px;
@@ -1124,6 +1126,7 @@ html::-webkit-scrollbar {
         border: none;
         border-radius: 0;
         box-shadow: none;
+        z-index: 1000;
     }
 
     /* Respect safe areas so nav never overlaps OS UI areas */
@@ -1210,6 +1213,11 @@ html::-webkit-scrollbar {
     #home .hero-content {
         gap: 1.5rem;
     }
+
+    /* Reduce logo bottom spacing on mobile to raise content */
+    .logo-container {
+        margin: 0 auto 1rem auto;
+    }
     
     /* Optimize meeting and contact sections */
     .feature-item,
@@ -1249,7 +1257,7 @@ html::-webkit-scrollbar {
     }
 
     .main-content {
-        padding-top: calc(var(--nav-height) + 2px);
+        padding-top: calc(var(--nav-height) - 10px);
         -ms-overflow-style: none;
         scrollbar-width: none;
     }
@@ -1263,6 +1271,7 @@ html::-webkit-scrollbar {
         top: var(--nav-height);
         max-height: calc(100vh - var(--nav-height));
         padding: 0.5rem 0;
+        z-index: 1000;
     }
 
     .main-content::-webkit-scrollbar {
@@ -1355,6 +1364,11 @@ html::-webkit-scrollbar {
     #home .hero-content {
         gap: 1.25rem;
         padding: 0 15px;
+    }
+
+    /* Further reduce logo bottom spacing on small screens */
+    .logo-container {
+        margin: 0 auto 0.75rem auto;
     }
     
     .meeting-info-card,
