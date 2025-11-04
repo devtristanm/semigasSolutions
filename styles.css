@@ -986,6 +986,17 @@ html::-webkit-scrollbar {
     font-size: 1.5rem;
 }
 
+/* Clickable contact links styling */
+.contact-link {
+    color: #ffffff;
+    text-decoration: underline;
+}
+.contact-link:hover, .contact-link:focus {
+    color: #ffffff;
+    text-decoration: underline;
+    text-shadow: 0 0 8px rgba(59, 255, 255, 0.6);
+}
+
 .contact-form {
     background: rgba(255, 255, 255, 0.05);
     padding: 2rem;
@@ -1272,6 +1283,26 @@ html::-webkit-scrollbar {
         gap: 0.75rem;
     }
 
+    /* Center about text on mobile/tablet */
+    .about-text { 
+        text-align: center; 
+    }
+
+    /* Center Schedule a Meeting content on mobile/tablet */
+    .meeting-info,
+    .meeting-features,
+    .feature-item,
+    .meeting-details p { 
+        text-align: center; 
+    }
+
+    /* Contact page: center content on mobile */
+    .contact-info,
+    .contact-methods,
+    .contact-form { 
+        text-align: center; 
+    }
+
 }
 
 @media (max-width: 480px) {
@@ -1330,6 +1361,9 @@ html::-webkit-scrollbar {
         width: 26px;
         height: 3.5px;
         margin: 4px 0;
+        background: linear-gradient(90deg, #3BFFFF, #F10092) !important;
+        background-color: #3BFFFF !important;
+        opacity: 1 !important;
     }
 
     .nav-menu {
@@ -1436,6 +1470,19 @@ html::-webkit-scrollbar {
     .skill-item h3,
     .contact-method span {
         font-size: 1.1rem;
+    }
+
+    /* Center about text on small phones */
+    .about-text { 
+        text-align: center; 
+    }
+
+    /* Center Schedule a Meeting content on small phones */
+    .meeting-info,
+    .meeting-features,
+    .feature-item,
+    .meeting-details p { 
+        text-align: center; 
     }
     
     .nav-logo {
