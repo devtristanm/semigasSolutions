@@ -176,6 +176,9 @@ function setupEventListeners() {
     
     // Modal functionality
     setupModalListeners();
+
+    // FAQ accordion
+    setupFAQAccordion();
     
     // Scroll indicator click
     const scrollIndicator = document.querySelector('.scroll-indicator');
@@ -217,7 +220,7 @@ function setupEventListeners() {
     document.addEventListener('keydown', function(e) {
         if (isTransitioning) return;
         
-        const sections = ['home', 'about', 'meeting', 'contact'];
+        const sections = ['home', 'about', 'experience', 'services', 'meeting', 'faq', 'contact'];
         const currentIndex = sections.indexOf(currentSection);
         
         if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
@@ -247,7 +250,7 @@ function setupScrollAnimation() {
                 entry.target.classList.add('animate-in');
                 
                 // Add staggered animation for child elements
-                const children = entry.target.querySelectorAll('.skill-item, .project-card, .contact-method');
+                const children = entry.target.querySelectorAll('.skill-item, .project-card, .contact-method, .experience-card, .service-card, .service-detail, .faq-item, .founding-principle, .mission-statement');
                 children.forEach((child, index) => {
                     setTimeout(() => {
                         child.style.animation = `slideInUp 0.6s ease-out ${index * 0.1}s both`;
@@ -258,8 +261,74 @@ function setupScrollAnimation() {
     }, observerOptions);
     
     // Observe elements for scroll animations
-    document.querySelectorAll('.skill-item, .project-card, .contact-method').forEach(el => {
+    document.querySelectorAll('.skill-item, .project-card, .contact-method, .experience-card, .service-card, .service-detail, .faq-item, .founding-principle, .mission-statement').forEach(el => {
         observer.observe(el);
+    });
+}
+
+// Setup FAQ accordion interactions
+function setupFAQAccordion() {
+    const faqItems = document.querySelectorAll('.faq-item');
+    if (!faqItems.length) return;
+
+    const closeAll = () => {
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            const answer = item.querySelector('.faq-answer');
+            const icon = item.querySelector('.faq-icon');
+            if (!question || !answer) return;
+            item.classList.remove('open');
+            question.setAttribute('aria-expanded', 'false');
+            answer.setAttribute('aria-hidden', 'true');
+            answer.style.maxHeight = '0px';
+            if (icon) {
+                icon.textContent = '+';
+            }
+        });
+    };
+
+    faqItems.forEach((item, index) => {
+        const question = item.querySelector('.faq-question');
+        const answer = item.querySelector('.faq-answer');
+
+        if (!question || !answer) return;
+
+        const questionId = `faq-question-${index}`;
+        const answerId = `faq-answer-${index}`;
+        question.id = questionId;
+        question.setAttribute('aria-controls', answerId);
+        answer.id = answerId;
+        answer.setAttribute('aria-labelledby', questionId);
+        question.setAttribute('aria-expanded', 'false');
+        answer.setAttribute('aria-hidden', 'true');
+        answer.style.maxHeight = '0px';
+
+        question.addEventListener('click', () => {
+            const isExpanded = question.getAttribute('aria-expanded') === 'true';
+
+            closeAll();
+
+            if (!isExpanded) {
+                item.classList.add('open');
+                question.setAttribute('aria-expanded', 'true');
+                answer.setAttribute('aria-hidden', 'false');
+                answer.style.maxHeight = `${answer.scrollHeight}px`;
+                const icon = item.querySelector('.faq-icon');
+                if (icon) {
+                    icon.textContent = '−';
+                }
+            }
+        });
+    });
+
+    window.addEventListener('resize', () => {
+        faqItems.forEach(item => {
+            if (!item.classList.contains('open')) return;
+            const answer = item.querySelector('.faq-answer');
+            if (answer) {
+                answer.style.maxHeight = `${answer.scrollHeight}px`;
+            }
+        });
     });
 }
 
