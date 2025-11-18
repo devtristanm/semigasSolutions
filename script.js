@@ -281,9 +281,6 @@ function setupFAQAccordion() {
             question.setAttribute('aria-expanded', 'false');
             answer.setAttribute('aria-hidden', 'true');
             answer.style.maxHeight = '0px';
-            if (icon) {
-                icon.textContent = '+';
-            }
         });
     };
 
@@ -313,10 +310,6 @@ function setupFAQAccordion() {
                 question.setAttribute('aria-expanded', 'true');
                 answer.setAttribute('aria-hidden', 'false');
                 answer.style.maxHeight = `${answer.scrollHeight}px`;
-                const icon = item.querySelector('.faq-icon');
-                if (icon) {
-                    icon.textContent = '−';
-                }
             }
         });
     });
@@ -424,6 +417,7 @@ window.addEventListener('resize', debounce(function() {
     if (window.innerWidth > 768 && isMenuOpen) {
         closeMobileMenu();
     }
+    
 }, 250));
 
 // Add performance optimization
@@ -525,3 +519,4 @@ function closeModal() {
     modal.classList.remove('active');
     document.body.style.overflow = '';
 }
+

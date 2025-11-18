@@ -147,6 +147,14 @@ html::-webkit-scrollbar {
     max-width: 400px;
 }
 
+/* Ensure logo stays above atom */
+.logo-container,
+.logo,
+.logo-inner {
+    position: relative;
+    z-index: 20;
+}
+
 .logo {
     width: 300px;
     height: 300px;
@@ -447,7 +455,41 @@ html::-webkit-scrollbar {
 /* current glow handled via SVG animateMotion in index.html */
 
 /* Ensure hero content sits above visuals */
-#home .hero { z-index: 2; position: relative; }
+#home .hero { 
+    z-index: 2; 
+    position: relative;
+    overflow: hidden;
+}
+
+
+
+@keyframes fadeInGlow {
+    0% {
+        text-shadow: 0 0 20px rgba(59, 255, 255, 0.3);
+    }
+    100% {
+        text-shadow: 0 0 30px rgba(59, 255, 255, 0.5), 0 0 40px rgba(241, 0, 146, 0.3);
+    }
+}
+
+/* Enhanced Logo Animation */
+.logo {
+    animation: pulse 2s infinite;
+}
+
+/* Enhanced Button Animations */
+.btn-primary {
+    animation: buttonPulse 3s ease-in-out infinite;
+}
+
+@keyframes buttonPulse {
+    0%, 100% {
+        box-shadow: 0 4px 15px rgba(59, 255, 255, 0.3);
+    }
+    50% {
+        box-shadow: 0 8px 25px rgba(59, 255, 255, 0.5), 0 0 40px rgba(241, 0, 146, 0.3);
+    }
+}
 
 @media (max-width: 768px) {
     .current-glow {
@@ -525,6 +567,8 @@ html::-webkit-scrollbar {
     text-align: center;
     margin: 0 auto;
     padding: 0 20px;
+    position: relative;
+    z-index: 10;
 }
 
 .hero-title {
@@ -543,10 +587,11 @@ html::-webkit-scrollbar {
 .hero-subtitle {
     font-size: 1.5rem;
     margin-bottom: 2rem;
-    color: #cccccc;
-    animation: slideInLeft 1s ease-out 0.2s both;
+    color: #d0d4e0;
+    animation: slideInLeft 1s ease-out 0.2s both, fadeInGlow 2s ease-in-out 0.5s infinite alternate;
     text-align: center;
     width: 100%;
+    text-shadow: 0 0 20px rgba(59, 255, 255, 0.3);
 }
 
 .hero-buttons {
@@ -684,43 +729,56 @@ html::-webkit-scrollbar {
     background-clip: text;
 }
 
-.principle-highlight {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 1.5rem;
+.kip-logo-container {
+    display: flex;
     align-items: center;
-    margin: 1.5rem 0;
-    padding: 1.5rem;
-    border-radius: 14px;
-    background: rgba(10, 10, 10, 0.65);
-    border: 1px solid rgba(241, 0, 146, 0.25);
-    box-shadow: inset 0 0 24px rgba(59, 255, 255, 0.1);
+    justify-content: center;
+    width: 300px;
+    height: auto;
+    margin: 2rem auto;
 }
 
-.principle-acronym {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #3BFFFF;
-    text-shadow: 0 0 20px rgba(59, 255, 255, 0.5);
+.kip-logo {
+    width: 100%;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 0 10px rgba(59, 255, 255, 0.3));
 }
+
+.kip-description {
+    margin: 1.5rem 0;
+    font-size: 1.1rem;
+    line-height: 1.7;
+}
+
+.tm-symbol {
+    font-size: 0.7em;
+    vertical-align: super;
+    color: #ffffff;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+    margin-left: 3px;
+    font-weight: normal;
+}
+
 
 .skill-item {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(10, 10, 10, 0.75);
     padding: 2rem;
-    border-radius: 15px;
-    border: 1px solid rgba(59, 255, 255, 0.2);
-    transition: all 0.3s ease;
+    border-radius: 18px;
+    border: 1px solid rgba(59, 255, 255, 0.15);
+    box-shadow: 0 4px 20px rgba(10, 15, 25, 0.3);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     animation: slideInUp 0.6s ease-out;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(12px);
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
 }
 
 .skill-item:hover {
-    transform: translateY(-5px);
-    border-color: #3BFFFF;
-    box-shadow: 0 10px 30px rgba(59, 255, 255, 0.3);
-    background: rgba(59, 255, 255, 0.05);
+    transform: translateY(-2px);
+    border-color: rgba(59, 255, 255, 0.3);
+    box-shadow: 0 8px 30px rgba(59, 255, 255, 0.15);
+    background: rgba(10, 10, 10, 0.85);
     cursor: pointer;
 }
 
@@ -797,45 +855,90 @@ html::-webkit-scrollbar {
 }
 
 .services-overview {
-    max-width: 720px;
-    margin: 0 auto 2.5rem auto;
+    max-width: 800px;
+    margin: 0 auto 3.5rem auto;
     text-align: center;
-    color: #dde0ff;
-    font-size: 1.1rem;
+    color: #d0d4e0;
+    font-size: 1.15rem;
+    line-height: 1.7;
 }
 
 .services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1.75rem;
-    margin-bottom: 2.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
 .service-card {
-    padding: 2rem;
-    border-radius: 18px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(59, 255, 255, 0.22);
-    box-shadow: 0 22px 45px rgba(10, 15, 25, 0.3);
+    padding: 2.25rem;
+    border-radius: 20px;
+    background: rgba(10, 10, 10, 0.75);
+    border: 1px solid rgba(59, 255, 255, 0.15);
+    box-shadow: 0 8px 32px rgba(10, 15, 25, 0.35);
     backdrop-filter: blur(12px);
-    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.service-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(59, 255, 255, 0.3);
+    box-shadow: 0 16px 48px rgba(59, 255, 255, 0.2);
+    background: rgba(10, 10, 10, 0.85);
+}
+
+.service-card-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid rgba(59, 255, 255, 0.1);
+}
+
+.service-icon {
+    font-size: 2rem;
+    line-height: 1;
+    flex-shrink: 0;
+    filter: drop-shadow(0 0 8px rgba(59, 255, 255, 0.3));
 }
 
 .service-card h3 {
     color: #3BFFFF;
-    margin-bottom: 1rem;
+    margin: 0;
+    font-size: 1.35rem;
+    font-weight: 600;
+    line-height: 1.3;
 }
 
-.service-card ul {
+.service-description {
+    color: #d0d4e0;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    flex-grow: 0;
+}
+
+.service-features {
     list-style: none;
-    display: grid;
-    gap: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    margin: 0;
+    padding: 0;
+    margin-top: auto;
 }
 
 .service-card li {
     position: relative;
-    padding-left: 1.25rem;
+    padding-left: 1.5rem;
     color: #eef4ff;
+    font-size: 0.95rem;
+    line-height: 1.6;
 }
 
 .service-card li::before {
@@ -843,51 +946,39 @@ html::-webkit-scrollbar {
     position: absolute;
     left: 0;
     color: #F10092;
-}
-
-.service-card:hover {
-    transform: translateY(-8px);
-    border-color: rgba(241, 0, 146, 0.35);
-    box-shadow: 0 28px 55px rgba(59, 255, 255, 0.22);
-}
-
-.service-details {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1.75rem;
-}
-
-.service-detail {
-    padding: 1.75rem;
-    border-radius: 16px;
-    background: rgba(10, 10, 10, 0.7);
-    border: 1px solid rgba(59, 255, 255, 0.18);
-    box-shadow: 0 18px 38px rgba(10, 15, 25, 0.28);
-}
-
-.service-detail h4 {
-    color: #3BFFFF;
-    margin-bottom: 0.75rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-shadow: 0 0 6px rgba(241, 0, 146, 0.5);
 }
 
 .faq-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    max-width: 900px;
+    margin: 0 auto;
 }
 
 .faq-item {
-    padding: 1.25rem 1.5rem;
-    border-radius: 16px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(59, 255, 255, 0.18);
-    box-shadow: 0 18px 38px rgba(10, 15, 25, 0.28);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 18px;
+    background: rgba(10, 10, 10, 0.75);
+    border: 1px solid rgba(59, 255, 255, 0.15);
+    box-shadow: 0 4px 20px rgba(10, 15, 25, 0.3);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    backdrop-filter: blur(12px);
 }
 
 .faq-item:hover {
-    border-color: rgba(241, 0, 146, 0.35);
-    box-shadow: 0 24px 48px rgba(59, 255, 255, 0.18);
+    border-color: rgba(59, 255, 255, 0.3);
+    box-shadow: 0 8px 30px rgba(59, 255, 255, 0.15);
+    transform: translateY(-2px);
+}
+
+.faq-item.open {
+    border-color: rgba(241, 0, 146, 0.4);
+    box-shadow: 0 12px 40px rgba(59, 255, 255, 0.2);
+    background: rgba(10, 10, 10, 0.85);
 }
 
 .faq-question {
@@ -899,78 +990,79 @@ html::-webkit-scrollbar {
     background: transparent;
     color: #ffffff;
     border: none;
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     font-weight: 600;
     text-align: left;
     cursor: pointer;
-    padding: 0;
+    padding: 1.5rem 1.75rem;
+    transition: color 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+.faq-question:hover {
+    color: #3BFFFF;
+}
+
+.faq-question-text {
+    flex: 1;
+    line-height: 1.5;
 }
 
 .faq-icon {
-    font-size: 1.5rem;
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
     color: #3BFFFF;
-    transition: transform 0.3s ease, color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s ease;
+}
+
+.faq-icon svg {
+    width: 100%;
+    height: 100%;
+    stroke: currentColor;
+}
+
+.faq-item.open .faq-icon {
+    transform: rotate(180deg);
+    color: #F10092;
+}
+
+.faq-item.open .faq-question {
+    color: #3BFFFF;
+    padding-bottom: 1rem;
 }
 
 .faq-answer {
     max-height: 0;
     overflow: hidden;
     opacity: 0;
-    transition: max-height 0.35s ease, opacity 0.35s ease;
-    padding-top: 0;
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+                opacity 0.4s ease,
+                padding 0.4s ease;
+    padding: 0 1.75rem;
+}
+
+.faq-answer-content {
+    padding-bottom: 1.5rem;
 }
 
 .faq-answer p {
     margin: 0;
-    color: #dde0ff;
-    line-height: 1.6;
+    color: #d0d4e0;
+    line-height: 1.75;
+    font-size: 1rem;
 }
 
 .faq-item.open .faq-answer {
     opacity: 1;
-    padding-top: 1rem;
-    max-height: 600px;
+    max-height: 800px;
+    padding-top: 0;
 }
 
-.faq-item.open .faq-question {
-    color: #3BFFFF;
-}
-
-.animated-shape {
-    position: absolute;
-    border-radius: 50%;
-    animation: float 4s infinite;
-}
-
-.shape-1 {
-    width: 120px;
-    height: 120px;
-    background: linear-gradient(45deg, rgba(59, 255, 255, 0.3), rgba(241, 0, 146, 0.2));
-    top: 10%;
-    left: 10%;
-    animation-delay: 0s;
-    box-shadow: 0 0 20px rgba(59, 255, 255, 0.2);
-}
-
-.shape-2 {
-    width: 80px;
-    height: 80px;
-    background: linear-gradient(45deg, rgba(246, 98, 50, 0.3), rgba(212, 25, 219, 0.2));
-    top: 50%;
-    right: 20%;
-    animation-delay: 1s;
-    box-shadow: 0 0 15px rgba(246, 98, 50, 0.3);
-}
-
-.shape-3 {
-    width: 100px;
-    height: 100px;
-    background: linear-gradient(45deg, rgba(212, 25, 219, 0.3), rgba(59, 255, 255, 0.2));
-    bottom: 10%;
-    left: 30%;
-    animation-delay: 2s;
-    box-shadow: 0 0 18px rgba(212, 25, 219, 0.3);
-}
 
 /* Projects Section */
 .projects-grid {
@@ -980,20 +1072,21 @@ html::-webkit-scrollbar {
 }
 
 .project-card {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 15px;
+    background: rgba(10, 10, 10, 0.75);
+    border-radius: 18px;
     overflow: hidden;
-    border: 1px solid rgba(59, 255, 255, 0.2);
-    transition: all 0.3s ease;
+    border: 1px solid rgba(59, 255, 255, 0.15);
+    box-shadow: 0 4px 20px rgba(10, 15, 25, 0.3);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     animation: slideInUp 0.6s ease-out;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(12px);
 }
 
 .project-card:hover {
-    transform: translateY(-10px);
-    border-color: #3BFFFF;
-    box-shadow: 0 20px 40px rgba(59, 255, 255, 0.3);
-    background: rgba(59, 255, 255, 0.05);
+    transform: translateY(-6px);
+    border-color: rgba(59, 255, 255, 0.3);
+    box-shadow: 0 12px 40px rgba(59, 255, 255, 0.2);
+    background: rgba(10, 10, 10, 0.85);
 }
 
 .project-image {
@@ -1048,37 +1141,47 @@ html::-webkit-scrollbar {
 }
 
 .meeting-info h3 {
-    color: #3BFFFF;
+    font-size: 1.75rem;
     margin-bottom: 1rem;
-    font-size: 2rem;
-    text-shadow: 0 0 10px rgba(59, 255, 255, 0.3);
+    background: linear-gradient(45deg, #3BFFFF, #F10092);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .meeting-features {
     display: grid;
-    gap: 2rem;
+    gap: 1.25rem;
     margin-top: 2rem;
 }
 
 .feature-item {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(10, 10, 10, 0.75);
     padding: 1.5rem;
-    border-radius: 15px;
-    border: 1px solid rgba(59, 255, 255, 0.2);
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
+    border-radius: 18px;
+    border: 1px solid rgba(59, 255, 255, 0.15);
+    box-shadow: 0 4px 20px rgba(10, 15, 25, 0.3);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(12px);
 }
 
 .feature-item:hover {
-    transform: translateY(-5px);
-    border-color: #3BFFFF;
-    box-shadow: 0 10px 30px rgba(59, 255, 255, 0.3);
-    background: rgba(59, 255, 255, 0.05);
+    transform: translateY(-2px);
+    border-color: rgba(59, 255, 255, 0.3);
+    box-shadow: 0 8px 30px rgba(59, 255, 255, 0.15);
+    background: rgba(10, 10, 10, 0.85);
 }
 
 .feature-icon {
     font-size: 2rem;
     margin-bottom: 1rem;
+    filter: drop-shadow(0 0 8px rgba(59, 255, 255, 0.3));
+}
+
+.feature-item span:not(.feature-icon) {
+    color: #d0d4e0;
+    line-height: 1.75;
+    font-size: 1rem;
 }
 
 .feature-item h4 {
@@ -1088,11 +1191,18 @@ html::-webkit-scrollbar {
 }
 
 .booking-card {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 2rem;
-    border-radius: 15px;
-    border: 1px solid rgba(59, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
+    background: rgba(10, 10, 10, 0.75);
+    padding: 2.25rem;
+    border-radius: 18px;
+    border: 1px solid rgba(59, 255, 255, 0.15);
+    box-shadow: 0 8px 32px rgba(10, 15, 25, 0.35);
+    backdrop-filter: blur(12px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.booking-card:hover {
+    border-color: rgba(59, 255, 255, 0.25);
+    box-shadow: 0 12px 40px rgba(59, 255, 255, 0.15);
 }
 
 .booking-card h4 {
@@ -1100,30 +1210,40 @@ html::-webkit-scrollbar {
     margin-bottom: 1.5rem;
     text-align: center;
     text-shadow: 0 0 10px rgba(59, 255, 255, 0.3);
+    font-size: 1.35rem;
 }
 
 .meeting-info-card {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(10, 10, 10, 0.75);
     padding: 2rem;
-    border-radius: 15px;
-    border: 1px solid rgba(59, 255, 255, 0.2);
+    border-radius: 18px;
+    border: 1px solid rgba(59, 255, 255, 0.15);
+    box-shadow: 0 4px 20px rgba(10, 15, 25, 0.3);
     margin-bottom: 2rem;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(12px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.meeting-info-card:hover {
+    border-color: rgba(59, 255, 255, 0.25);
+    box-shadow: 0 8px 30px rgba(59, 255, 255, 0.15);
 }
 
 .meeting-details h5 {
     color: #3BFFFF;
-    font-size: 1.5rem;
+    font-size: 1.35rem;
     margin-bottom: 1rem;
     text-shadow: 0 0 10px rgba(59, 255, 255, 0.3);
     text-align: center;
+    font-weight: 600;
 }
 
 .meeting-details p {
-    color: #cccccc;
+    color: #d0d4e0;
     margin-bottom: 1.5rem;
     text-align: center;
-    font-size: 1.1rem;
+    font-size: 1rem;
+    line-height: 1.75;
 }
 
 .meeting-highlights {
@@ -1135,28 +1255,30 @@ html::-webkit-scrollbar {
     display: flex;
     align-items: center;
     gap: 1rem;
-    padding: 0.75rem;
-    background: rgba(59, 255, 255, 0.05);
-    border-radius: 8px;
-    border: 1px solid rgba(59, 255, 255, 0.1);
-    transition: all 0.3s ease;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    border: 1px solid rgba(59, 255, 255, 0.15);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(8px);
 }
 
 .highlight-item:hover {
-    background: rgba(59, 255, 255, 0.1);
-    border-color: #3BFFFF;
+    background: rgba(59, 255, 255, 0.08);
+    border-color: rgba(59, 255, 255, 0.3);
     transform: translateX(5px);
+    box-shadow: 0 4px 15px rgba(59, 255, 255, 0.15);
 }
 
 .highlight-icon {
     font-size: 1.2rem;
-    color: #3BFFFF;
-    text-shadow: 0 0 10px rgba(59, 255, 255, 0.5);
+    filter: drop-shadow(0 0 8px rgba(59, 255, 255, 0.3));
 }
 
 .highlight-item span:last-child {
-    color: #ffffff;
+    color: #d0d4e0;
     font-weight: 500;
+    line-height: 1.6;
 }
 
 .calendar-embed {
@@ -1164,36 +1286,42 @@ html::-webkit-scrollbar {
 }
 
 .calendar-placeholder {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(10, 10, 10, 0.75);
     padding: 3rem 2rem;
-    border-radius: 15px;
-    border: 2px solid rgba(59, 255, 255, 0.3);
+    border-radius: 18px;
+    border: 1px solid rgba(59, 255, 255, 0.15);
+    box-shadow: 0 4px 20px rgba(10, 15, 25, 0.3);
     text-align: center;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(12px);
 }
 
 .calendar-placeholder:hover {
-    border-color: #3BFFFF;
-    background: rgba(59, 255, 255, 0.05);
+    border-color: rgba(59, 255, 255, 0.3);
+    box-shadow: 0 8px 30px rgba(59, 255, 255, 0.15);
     transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(59, 255, 255, 0.2);
+    background: rgba(10, 10, 10, 0.85);
 }
 
 .calendar-icon {
     font-size: 3rem;
     margin-bottom: 1rem;
+    filter: drop-shadow(0 0 10px rgba(59, 255, 255, 0.3));
 }
 
 .calendar-placeholder h5 {
     color: #3BFFFF;
     margin-bottom: 0.5rem;
     text-shadow: 0 0 10px rgba(59, 255, 255, 0.3);
+    font-size: 1.35rem;
+    font-weight: 600;
 }
 
 .calendar-placeholder p {
-    color: #cccccc;
+    color: #d0d4e0;
     margin-bottom: 1.5rem;
+    line-height: 1.75;
+    font-size: 1rem;
 }
 
 /* Contact Section */
@@ -1204,6 +1332,22 @@ html::-webkit-scrollbar {
     align-items: start;
 }
 
+.contact-info h3 {
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(45deg, #3BFFFF, #F10092);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.contact-info p {
+    color: #d0d4e0;
+    line-height: 1.75;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
 .contact-methods {
     margin-top: 2rem;
 }
@@ -1212,24 +1356,30 @@ html::-webkit-scrollbar {
     display: flex;
     align-items: center;
     gap: 1rem;
-    margin-bottom: 1rem;
-    padding: 1rem;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 10px;
-    border: 1px solid rgba(59, 255, 255, 0.2);
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
+    margin-bottom: 1.25rem;
+    padding: 1.5rem;
+    background: rgba(10, 10, 10, 0.75);
+    border-radius: 18px;
+    border: 1px solid rgba(59, 255, 255, 0.15);
+    box-shadow: 0 4px 20px rgba(10, 15, 25, 0.3);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(12px);
 }
 
 .contact-method:hover {
-    border-color: #3BFFFF;
-    transform: translateX(10px);
-    box-shadow: 0 5px 15px rgba(59, 255, 255, 0.2);
-    background: rgba(59, 255, 255, 0.05);
+    border-color: rgba(59, 255, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(59, 255, 255, 0.15);
+    background: rgba(10, 10, 10, 0.85);
 }
 
 .contact-icon {
     font-size: 1.5rem;
+    filter: drop-shadow(0 0 8px rgba(59, 255, 255, 0.3));
+}
+
+.contact-method span:not(.contact-link) {
+    color: #d0d4e0;
 }
 
 /* Clickable contact links styling */
@@ -1244,11 +1394,18 @@ html::-webkit-scrollbar {
 }
 
 .contact-form {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 2rem;
-    border-radius: 15px;
-    border: 1px solid rgba(59, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
+    background: rgba(10, 10, 10, 0.75);
+    padding: 2.25rem;
+    border-radius: 18px;
+    border: 1px solid rgba(59, 255, 255, 0.15);
+    box-shadow: 0 8px 32px rgba(10, 15, 25, 0.35);
+    backdrop-filter: blur(12px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.contact-form:hover {
+    border-color: rgba(59, 255, 255, 0.25);
+    box-shadow: 0 12px 40px rgba(59, 255, 255, 0.15);
 }
 
 .form-group {
@@ -1259,21 +1416,27 @@ html::-webkit-scrollbar {
 .form-group textarea {
     width: 100%;
     padding: 1rem;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(59, 255, 255, 0.3);
-    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(59, 255, 255, 0.2);
+    border-radius: 12px;
     color: #ffffff;
     font-size: 1rem;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(5px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(8px);
+}
+
+.form-group input:hover,
+.form-group textarea:hover {
+    border-color: rgba(59, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .form-group input:focus,
 .form-group textarea:focus {
     outline: none;
-    border-color: #3BFFFF;
-    box-shadow: 0 0 20px rgba(59, 255, 255, 0.3);
-    background: rgba(59, 255, 255, 0.05);
+    border-color: rgba(59, 255, 255, 0.5);
+    box-shadow: 0 0 25px rgba(59, 255, 255, 0.25), 0 4px 15px rgba(10, 15, 25, 0.2);
+    background: rgba(59, 255, 255, 0.08);
 }
 
 .form-group input::placeholder,
@@ -1290,14 +1453,7 @@ html::-webkit-scrollbar {
     text-shadow: 0 0 30px rgba(59, 255, 255, 0.3);
 }
 
-/* Enhanced glassmorphism effects */
-.skill-item,
-.project-card,
-.contact-method,
-.contact-form {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
+/* Enhanced glassmorphism effects - removed duplicate styling */
 
 /* Improved button animations */
 .btn {
@@ -1454,21 +1610,58 @@ html::-webkit-scrollbar {
         padding: 2rem;
     }
 
-    .principle-highlight {
-        grid-template-columns: 1fr;
-        text-align: center;
-        gap: 1rem;
+    .kip-logo-container {
+        width: 220px;
     }
 
-    .principle-acronym {
-        justify-self: center;
+    .tm-symbol {
+        font-size: 0.65em;
     }
 
     .experience-grid,
     .services-grid,
-    .service-details,
     .faq-grid {
         grid-template-columns: 1fr;
+    }
+
+    .services-grid {
+        max-width: 100%;
+    }
+
+    .service-card {
+        padding: 1.75rem;
+    }
+
+    .service-card-header {
+        gap: 0.875rem;
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+    }
+
+    .service-icon {
+        font-size: 1.75rem;
+    }
+
+    .service-card h3 {
+        font-size: 1.2rem;
+    }
+
+    .service-description {
+        font-size: 0.95rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .faq-question {
+        padding: 1.25rem 1.5rem;
+        font-size: 1.05rem;
+    }
+
+    .faq-answer-content {
+        padding-bottom: 1.25rem;
+    }
+
+    .faq-answer {
+        padding: 0 1.5rem;
     }
 
     .services-overview {
@@ -1558,6 +1751,7 @@ html::-webkit-scrollbar {
     .contact-form { 
         text-align: center; 
     }
+
 
 }
 
@@ -1728,6 +1922,10 @@ html::-webkit-scrollbar {
         text-align: center; 
     }
 
+    .kip-logo-container {
+        width: 100px;
+    }
+
     /* Center Schedule a Meeting content on small phones */
     .meeting-info,
     .meeting-features,
@@ -1760,19 +1958,67 @@ html::-webkit-scrollbar {
         padding: 1.6rem;
     }
 
-    .principle-highlight {
-        padding: 1.25rem;
+    .kip-logo-container {
+        width: 180px;
     }
 
-    .principle-acronym {
-        font-size: 2rem;
+    .kip-description {
+        font-size: 1rem;
     }
 
-    .mission-statement,
-    .service-card,
-    .service-detail,
-    .faq-item {
+    .tm-symbol {
+        font-size: 0.6em;
+    }
+
+
+    .mission-statement {
         padding: 1.5rem;
+    }
+
+    .service-card {
+        padding: 1.5rem;
+    }
+
+    .service-card-header {
+        gap: 0.75rem;
+        margin-bottom: 0.875rem;
+        padding-bottom: 0.875rem;
+    }
+
+    .service-icon {
+        font-size: 1.5rem;
+    }
+
+    .service-card h3 {
+        font-size: 1.1rem;
+    }
+
+    .service-description {
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+
+    .service-card li {
+        font-size: 0.9rem;
+        padding-left: 1.25rem;
+    }
+
+    .faq-question {
+        padding: 1.15rem 1.25rem;
+        font-size: 1rem;
+    }
+
+    .faq-answer-content {
+        padding-bottom: 1.15rem;
+    }
+
+    .faq-answer {
+        padding: 0 1.25rem;
+    }
+
+    .faq-answer p {
+        font-size: 0.95rem;
+        line-height: 1.7;
     }
     /* Form X on open: hide middle bar */
     .hamburger.active .bar:nth-child(2) { opacity: 0 !important; }
