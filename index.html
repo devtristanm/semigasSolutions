@@ -13,6 +13,9 @@
         <img src="assets/semigasSpinner.png" alt="Loading Semigas" class="atom-svg">
     </div>
 
+    <!-- Background Molecules Container -->
+    <div id="molecules-container" class="molecules-container"></div>
+
     <!-- Main Content -->
     <div id="main-content" class="main-content">
         <!-- Navigation -->
@@ -39,6 +42,18 @@
         <!-- Home Section -->
         <section id="home" class="section active">
             <div class="circuit-bg"></div>
+            <!-- Molecular Background Video -->
+            <video id="molecular-video" class="molecular-video" autoplay muted loop playsinline aria-hidden="true">
+                <source src="assets/vecteezy_futuristic-molecular-structure-with-glowing-particles-and_58369812.mp4" type="video/mp4">
+            </video>
+            <!-- Video Overlay Shadow -->
+            <div class="video-overlay"></div>
+            <!-- Video Attribution -->
+            <div class="video-attribution">
+                <a href="https://www.vecteezy.com/free-videos/animated-background-molecular" target="_blank" rel="noopener noreferrer">
+                    Animated Background Molecular Stock Videos by Vecteezy
+                </a>
+            </div>
             <!-- Full-frame circuit with center opening for logo -->
             <svg class="circuit-svg circuit-frame" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
                 <defs>
@@ -99,7 +114,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="hero-subtitle">Advanced Semiconductor Controllers for Modern Manufacturing</p>
+                    <p class="hero-subtitle">Keep It In the Pipe™</p>
                     <div class="hero-buttons">
                         <button class="btn btn-primary" data-section="about">Learn More</button>
                         <button class="btn btn-secondary" data-section="meeting">Book Meeting</button>
