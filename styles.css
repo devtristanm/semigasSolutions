@@ -1782,6 +1782,15 @@ html::-webkit-scrollbar {
         flex-direction: column;
         text-align: center;
     }
+    
+    #home .hero {
+        min-height: calc(100vh - var(--nav-height));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-top: 0;
+        padding-bottom: 2rem;
+    }
 
     .hero-title {
         font-size: 2.5rem;
@@ -1916,7 +1925,11 @@ html::-webkit-scrollbar {
 
     /* Reduce logo bottom spacing on mobile to raise content */
     .logo-container {
-        margin: 0 auto 1rem auto;
+        margin: 0 auto 0.75rem auto;
+    }
+    
+    #home .hero-content {
+        margin-top: -1rem;
     }
     
     /* Optimize meeting and contact sections */
@@ -2029,7 +2042,11 @@ html::-webkit-scrollbar {
     }
     #home .hero {
         min-height: calc(100vh - var(--nav-height));
+        display: flex;
+        align-items: center;
+        justify-content: center;
         padding-top: 0;
+        padding-bottom: 1.5rem;
     }
 
     /* Give more breathing room for non-home sections under navbar */
@@ -2153,6 +2170,10 @@ html::-webkit-scrollbar {
     /* Further reduce logo bottom spacing on small screens */
     .logo-container {
         margin: 0 auto 0.5rem auto;
+    }
+    
+    #home .hero-content {
+        margin-top: -0.5rem;
     }
     
     .meeting-info-card,
