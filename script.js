@@ -49,10 +49,13 @@ function hideAtomLoader() {
 
 // Close mobile menu completely
 function closeMobileMenu() {
-    navMenu.classList.remove('active');
-    hamburger.classList.remove('active');
-    document.body.style.overflow = '';
-    isMenuOpen = false;
+    // Use requestAnimationFrame for smoother animation
+    requestAnimationFrame(() => {
+        navMenu.classList.remove('active');
+        hamburger.classList.remove('active');
+        document.body.style.overflow = '';
+        isMenuOpen = false;
+    });
 }
 
 // Scroll to top function
@@ -163,13 +166,16 @@ function setupEventListeners() {
         
         isMenuOpen = !isMenuOpen;
         
-        if (isMenuOpen) {
-            navMenu.classList.add('active');
-            this.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        } else {
-            closeMobileMenu();
-        }
+        // Use requestAnimationFrame for smoother animation
+        requestAnimationFrame(() => {
+            if (isMenuOpen) {
+                navMenu.classList.add('active');
+                this.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            } else {
+                closeMobileMenu();
+            }
+        });
     });
     
     // Close mobile menu when clicking outside

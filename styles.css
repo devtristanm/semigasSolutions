@@ -1752,20 +1752,22 @@ html::-webkit-scrollbar {
     /* Simple mobile menu */
     .nav-menu {
         position: fixed;
-        left: -100%;
+        left: 0;
         top: var(--nav-height);
         flex-direction: column;
-        background-color: rgba(10, 10, 10, 0.95);
+        background-color: rgba(10, 10, 10, 0.98);
         width: 100%;
         text-align: center;
-        transition: left 0.3s;
+        transform: translateX(-100%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         padding: 1rem 0;
-        backdrop-filter: blur(10px);
+        backdrop-filter: blur(8px);
         z-index: 6000;
+        will-change: transform;
     }
 
     .nav-menu.active {
-        left: 0;
+        transform: translateX(0);
     }
 
     .nav-menu li {
@@ -2028,7 +2030,7 @@ html::-webkit-scrollbar {
     }
     
     .nav-menu.active {
-        left: 0;
+        transform: translateX(0);
     }
     
     .nav-link {
