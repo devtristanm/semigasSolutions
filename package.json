@@ -1,0 +1,21 @@
+{
+  "name": "semigas-solutions-website",
+  "version": "1.0.0",
+  "description": "Semigas Solutions - Keep It In the Pipe™",
+  "scripts": {
+    "dev": "npx serve .",
+    "build": "echo 'No build step required for static site'",
+    "start": "npx serve ."
+  },
+  "keywords": [
+    "semiconductor",
+    "gas-systems",
+    "semigas"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.2.1"
+  }
+}
+

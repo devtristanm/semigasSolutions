@@ -35,7 +35,7 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #0a0a0a 0%, #1a0a1a 25%, #0a1a1a 50%, #1a0a0a 75%, #0a0a0a 100%);
+    background: #000000;
     color: #ffffff;
     overflow-x: hidden;
     overflow-y: hidden;
@@ -77,6 +77,14 @@ body {
     transition: opacity 0.3s ease;
     min-width: 100%;
     min-height: 100%;
+    display: none !important;
+    visibility: hidden;
+}
+
+/* Show video only on home page */
+#home.active .molecular-video {
+    display: block !important;
+    visibility: visible;
 }
 
 /* Video Overlay Shadow */
@@ -92,6 +100,14 @@ body {
         rgba(10, 10, 10, 0.85) 100%);
     z-index: 2;
     pointer-events: none;
+    display: none !important;
+    visibility: hidden;
+}
+
+/* Show overlay only on home page */
+#home.active .video-overlay {
+    display: block !important;
+    visibility: visible;
 }
 
 /* Video Attribution */
@@ -529,7 +545,7 @@ html::-webkit-scrollbar {
 .main-content {
     height: 100%;
     width: 100%;
-    background: linear-gradient(135deg, #0a0a0a 0%, #1a0a1a 25%, #0a1a1a 50%, #1a0a0a 75%, #0a0a0a 100%);
+    background: transparent;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     scrollbar-gutter: stable both-edges;
@@ -544,6 +560,9 @@ html::-webkit-scrollbar {
     margin: 0;
     background: linear-gradient(135deg, #0a0a0a 0%, #1a0a1a 25%, #0a1a1a 50%, #1a0a0a 75%, #0a0a0a 100%);
     overflow: hidden;
+    width: 100%;
+    left: 0;
+    right: 0;
 }
 
 /* Subtle animated circuit background overlay */
@@ -686,6 +705,16 @@ html::-webkit-scrollbar {
     min-height: 100vh;
     padding: 100px 0;
     display: none;
+    background: #000000;
+    position: relative;
+    width: 100%;
+    left: 0;
+    right: 0;
+}
+
+/* Home page keeps its gradient background */
+#home {
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a0a1a 25%, #0a1a1a 50%, #1a0a0a 75%, #0a0a0a 100%);
 }
 
 .section.active {

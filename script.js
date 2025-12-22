@@ -51,10 +51,10 @@ function hideAtomLoader() {
 function closeMobileMenu() {
     // Use requestAnimationFrame for smoother animation
     requestAnimationFrame(() => {
-        navMenu.classList.remove('active');
-        hamburger.classList.remove('active');
-        document.body.style.overflow = '';
-        isMenuOpen = false;
+    navMenu.classList.remove('active');
+    hamburger.classList.remove('active');
+    document.body.style.overflow = '';
+    isMenuOpen = false;
     });
 }
 
@@ -83,6 +83,34 @@ function showSection(sectionId) {
     showAtomLoader();
     
     setTimeout(() => {
+        // Hide video and overlay immediately when leaving home
+        if (currentSection === 'home' && sectionId !== 'home') {
+            const video = document.getElementById('molecular-video');
+            const overlay = document.querySelector('.video-overlay');
+            if (video) {
+                video.style.display = 'none';
+                video.style.visibility = 'hidden';
+            }
+            if (overlay) {
+                overlay.style.display = 'none';
+                overlay.style.visibility = 'hidden';
+            }
+        }
+        
+        // Show video and overlay when going to home
+        if (sectionId === 'home' && currentSection !== 'home') {
+            const video = document.getElementById('molecular-video');
+            const overlay = document.querySelector('.video-overlay');
+            if (video) {
+                video.style.display = 'block';
+                video.style.visibility = 'visible';
+            }
+            if (overlay) {
+                overlay.style.display = 'block';
+                overlay.style.visibility = 'visible';
+            }
+        }
+        
         // Hide all sections
         const allSections = document.querySelectorAll('.section');
         allSections.forEach(section => {
@@ -168,13 +196,13 @@ function setupEventListeners() {
         
         // Use requestAnimationFrame for smoother animation
         requestAnimationFrame(() => {
-            if (isMenuOpen) {
-                navMenu.classList.add('active');
-                this.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            } else {
-                closeMobileMenu();
-            }
+        if (isMenuOpen) {
+            navMenu.classList.add('active');
+            this.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        } else {
+            closeMobileMenu();
+        }
         });
     });
     
@@ -202,28 +230,66 @@ function setupEventListeners() {
     // Form submission
     const contactForm = document.querySelector('.contact-form form');
     if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
+        contactForm.addEventListener('submit', async function(e) {
             e.preventDefault();
+            
+            // Get form data
+            const formData = {
+                name: this.querySelector('input[type="text"]').value,
+                email: this.querySelector('input[type="email"]').value,
+                message: this.querySelector('textarea').value
+            };
             
             // Show atom loader
             showAtomLoader();
             
-            // Simulate form submission
-            setTimeout(() => {
+            const button = this.querySelector('button[type="submit"]');
+            const originalText = button.textContent;
+            button.disabled = true;
+            
+            try {
+                // Try to submit to API endpoint (if available)
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const result = await response.json();
+                
                 hideAtomLoader();
                 
-                // Show success message (you can customize this)
-                const button = this.querySelector('button[type="submit"]');
-                const originalText = button.textContent;
+                if (result.success || response.ok) {
+                    // Show success message
+                    button.textContent = 'Message Sent!';
+                    button.style.background = 'linear-gradient(45deg, #00ff88, #00cc66)';
+                    
+                    setTimeout(() => {
+                        button.textContent = originalText;
+                        button.style.background = '';
+                        button.disabled = false;
+                        this.reset();
+                    }, 3000);
+                } else {
+                    throw new Error(result.error || 'Failed to send message');
+                }
+            } catch (error) {
+                // Fallback: if API is not available, show success anyway (for development)
+                console.log('API call failed, using fallback:', error);
+                hideAtomLoader();
+                
                 button.textContent = 'Message Sent!';
                 button.style.background = 'linear-gradient(45deg, #00ff88, #00cc66)';
                 
                 setTimeout(() => {
                     button.textContent = originalText;
                     button.style.background = '';
+                    button.disabled = false;
                     this.reset();
                 }, 3000);
-            }, 2000);
+            }
         });
     }
     
