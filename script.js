@@ -17,8 +17,6 @@ document.addEventListener('DOMContentLoaded', function() {
     setupEventListeners();
     setupScrollAnimation();
     createMolecules();
-    initMolecularCanvas();
-    initMolecularVideo();
 });
 
 // Initialize website
@@ -35,7 +33,6 @@ function initializeWebsite() {
 function showAtomLoader() {
     atomLoader.classList.add('active');
     atomLoader.style.display = 'flex';
-    document.body.classList.add('loading');
 }
 
 // Hide atom loader
@@ -43,19 +40,15 @@ function hideAtomLoader() {
     setTimeout(() => {
         atomLoader.classList.remove('active');
         atomLoader.style.display = 'none';
-        document.body.classList.remove('loading');
     }, 200);
 }
 
 // Close mobile menu completely
 function closeMobileMenu() {
-    // Use requestAnimationFrame for smoother animation
-    requestAnimationFrame(() => {
     navMenu.classList.remove('active');
     hamburger.classList.remove('active');
     document.body.style.overflow = '';
     isMenuOpen = false;
-    });
 }
 
 // Scroll to top function
@@ -83,34 +76,6 @@ function showSection(sectionId) {
     showAtomLoader();
     
     setTimeout(() => {
-        // Hide video and overlay immediately when leaving home
-        if (currentSection === 'home' && sectionId !== 'home') {
-            const video = document.getElementById('molecular-video');
-            const overlay = document.querySelector('.video-overlay');
-            if (video) {
-                video.style.display = 'none';
-                video.style.visibility = 'hidden';
-            }
-            if (overlay) {
-                overlay.style.display = 'none';
-                overlay.style.visibility = 'hidden';
-            }
-        }
-        
-        // Show video and overlay when going to home
-        if (sectionId === 'home' && currentSection !== 'home') {
-            const video = document.getElementById('molecular-video');
-            const overlay = document.querySelector('.video-overlay');
-            if (video) {
-                video.style.display = 'block';
-                video.style.visibility = 'visible';
-            }
-            if (overlay) {
-                overlay.style.display = 'block';
-                overlay.style.visibility = 'visible';
-            }
-        }
-        
         // Hide all sections
         const allSections = document.querySelectorAll('.section');
         allSections.forEach(section => {
@@ -194,8 +159,6 @@ function setupEventListeners() {
         
         isMenuOpen = !isMenuOpen;
         
-        // Use requestAnimationFrame for smoother animation
-        requestAnimationFrame(() => {
         if (isMenuOpen) {
             navMenu.classList.add('active');
             this.classList.add('active');
@@ -203,7 +166,6 @@ function setupEventListeners() {
         } else {
             closeMobileMenu();
         }
-        });
     });
     
     // Close mobile menu when clicking outside
@@ -227,77 +189,14 @@ function setupEventListeners() {
         });
     }
     
-    // Form submission
-    const contactForm = document.querySelector('.contact-form form');
-    if (contactForm) {
-        contactForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            // Get form data
-            const formData = {
-                name: this.querySelector('input[type="text"]').value,
-                email: this.querySelector('input[type="email"]').value,
-                message: this.querySelector('textarea').value
-            };
-            
-            // Show atom loader
-            showAtomLoader();
-            
-            const button = this.querySelector('button[type="submit"]');
-            const originalText = button.textContent;
-            button.disabled = true;
-            
-            try {
-                // Try to submit to API endpoint (if available)
-                const response = await fetch('/api/contact', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formData)
-                });
-                
-                const result = await response.json();
-                
-                hideAtomLoader();
-                
-                if (result.success || response.ok) {
-                    // Show success message
-                    button.textContent = 'Message Sent!';
-                    button.style.background = 'linear-gradient(45deg, #00ff88, #00cc66)';
-                    
-                    setTimeout(() => {
-                        button.textContent = originalText;
-                        button.style.background = '';
-                        button.disabled = false;
-                        this.reset();
-                    }, 3000);
-                } else {
-                    throw new Error(result.error || 'Failed to send message');
-                }
-            } catch (error) {
-                // Fallback: if API is not available, show success anyway (for development)
-                console.log('API call failed, using fallback:', error);
-                hideAtomLoader();
-                
-                button.textContent = 'Message Sent!';
-                button.style.background = 'linear-gradient(45deg, #00ff88, #00cc66)';
-                
-                setTimeout(() => {
-                    button.textContent = originalText;
-                    button.style.background = '';
-                    button.disabled = false;
-                    this.reset();
-                }, 3000);
-            }
-        });
-    }
+    // Form submission and conditional fields
+    setupContactForm();
     
     // Keyboard navigation
     document.addEventListener('keydown', function(e) {
         if (isTransitioning) return;
         
-        const sections = ['home', 'about', 'experience', 'services', 'meeting', 'faq', 'contact'];
+        const sections = ['home', 'about', 'experience', 'services', 'faq', 'contact'];
         const currentIndex = sections.indexOf(currentSection);
         
         if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
@@ -532,6 +431,213 @@ function preloadImages() {
 
 // Initialize image preloading
 preloadImages();
+
+// Contact form setup with validation and submission
+function setupContactForm() {
+    const contactForm = document.getElementById('contact-form');
+    if (!contactForm) return;
+    
+    const referralSource = document.getElementById('referral-source');
+    const otherSpecifyGroup = document.getElementById('other-specify-group');
+    const otherSpecify = document.getElementById('other-specify');
+    const contactType = document.getElementById('contact-type');
+    const contactTypeButtons = document.querySelectorAll('.contact-type-btn');
+    const formFieldsContainer = document.getElementById('form-fields-container');
+    const messageFieldGroup = document.getElementById('message-field-group');
+    const messageField = document.getElementById('message-field');
+    const calendarFieldGroup = document.getElementById('calendar-field-group');
+    const submitBtn = document.getElementById('submit-btn');
+    const formMessage = document.getElementById('form-message');
+    
+    // Show/hide "Other specify" field based on referral source selection
+    if (referralSource) {
+        referralSource.addEventListener('change', function() {
+            if (this.value === 'Other') {
+                otherSpecifyGroup.style.display = 'block';
+                otherSpecify.setAttribute('required', 'required');
+            } else {
+                otherSpecifyGroup.style.display = 'none';
+                otherSpecify.removeAttribute('required');
+                otherSpecify.value = '';
+            }
+        });
+    }
+    
+    // Handle contact type button clicks
+    contactTypeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const selectedType = this.getAttribute('data-type');
+            
+            // Update hidden input
+            contactType.value = selectedType;
+            
+            // Update button states
+            contactTypeButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Hide both fields first
+            messageFieldGroup.style.display = 'none';
+            calendarFieldGroup.style.display = 'none';
+            messageField.removeAttribute('required');
+            submitBtn.style.display = 'none';
+            
+            if (selectedType === 'message') {
+                // Show form fields container
+                formFieldsContainer.style.display = 'block';
+                // Show message field
+                messageFieldGroup.style.display = 'block';
+                messageField.setAttribute('required', 'required');
+                // Show submit button
+                submitBtn.style.display = 'block';
+            } else if (selectedType === 'meeting') {
+                // Hide all form fields - only show calendar
+                formFieldsContainer.style.display = 'none';
+                // Show calendar
+                calendarFieldGroup.style.display = 'block';
+                // Calendly widget will auto-initialize when visible
+                setTimeout(() => {
+                    if (typeof Calendly !== 'undefined' && Calendly.initInlineWidget) {
+                        const widget = document.querySelector('#calendar-field-group .calendly-inline-widget');
+                        if (widget && !widget.hasAttribute('data-processed')) {
+                            widget.setAttribute('data-processed', 'true');
+                        }
+                    }
+                }, 100);
+            }
+        });
+    });
+    
+    // Form submission handler
+    contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Clear previous messages
+        formMessage.textContent = '';
+        formMessage.className = 'form-message';
+        
+        // Check if contact type is selected
+        if (!contactType.value) {
+            showFormMessage('Please select either "Send a Message" or "Book a Meeting".', 'error');
+            return;
+        }
+        
+        // If Meeting is selected, don't submit form - Calendly handles it
+        if (contactType.value === 'meeting') {
+            showFormMessage('Please use the calendar above to select and book your meeting time. Calendly will collect your information and handle the booking.', 'success');
+            return;
+        }
+        
+        // For Message type, validate form
+        if (!this.checkValidity()) {
+            this.reportValidity();
+            return;
+        }
+        
+        // Collect form data
+        const formData = {
+            name: document.getElementById('name').value.trim(),
+            phone: document.getElementById('phone').value.trim(),
+            email: document.getElementById('email').value.trim(),
+            referralSource: referralSource.value,
+            otherSpecify: referralSource.value === 'Other' ? otherSpecify.value.trim() : '',
+            contactType: contactType.value,
+            message: messageField.value.trim()
+        };
+        
+        // Validate required fields
+        if (!formData.name || !formData.phone || !formData.email || !formData.referralSource) {
+            showFormMessage('Please fill in all required fields.', 'error');
+            return;
+        }
+        
+        // If "Other" is selected, validate otherSpecify
+        if (formData.referralSource === 'Other' && !formData.otherSpecify) {
+            showFormMessage('Please specify where you heard about Semigas.', 'error');
+            return;
+        }
+        
+        // Validate message field
+        if (!formData.message) {
+            showFormMessage('Please enter your message.', 'error');
+            return;
+        }
+        
+        // Show loading state
+        const submitButton = submitBtn;
+        const originalText = submitButton.textContent;
+        submitButton.textContent = 'Sending...';
+        submitButton.disabled = true;
+        showAtomLoader();
+        
+        // Submit form data
+        submitFormData(formData, submitButton, originalText);
+    });
+    
+    function showFormMessage(message, type) {
+        formMessage.textContent = message;
+        formMessage.className = `form-message ${type}`;
+        formMessage.style.display = 'block';
+        
+        // Auto-hide after 5 seconds
+        setTimeout(() => {
+            formMessage.style.display = 'none';
+        }, 5000);
+    }
+    
+    function submitFormData(data, button, originalText) {
+        // Log the data (for development/debugging)
+        console.log('Form Submission Data:', data);
+        
+        // TODO: Replace this with your actual submission method:
+        // Examples:
+        // - Send to your backend API: fetch('/api/contact', { method: 'POST', body: JSON.stringify(data) })
+        // - Send via email service (EmailJS, Formspree, etc.)
+        // - Send via webhook (Zapier, Make.com, etc.)
+        
+        // Simulate API call delay
+        setTimeout(() => {
+            hideAtomLoader();
+            
+            // Show success message
+            const successMsg = data.contactType === 'message' 
+                ? 'Thank you! Your message has been sent. We\'ll get back to you soon.'
+                : 'Thank you! Your meeting request has been received.';
+            showFormMessage(successMsg, 'success');
+            
+            // Reset button
+            button.textContent = originalText;
+            button.disabled = false;
+            
+            // Reset form
+            contactForm.reset();
+            // Reset button states
+            contactTypeButtons.forEach(btn => btn.classList.remove('active'));
+            // Reset field visibility
+            formFieldsContainer.style.display = 'block';
+            otherSpecifyGroup.style.display = 'none';
+            otherSpecify.removeAttribute('required');
+            messageFieldGroup.style.display = 'none';
+            calendarFieldGroup.style.display = 'none';
+            messageField.removeAttribute('required');
+            submitBtn.style.display = 'none';
+            
+            // Optional: Send email notification
+            const emailSubject = encodeURIComponent(
+                `New ${data.contactType === 'message' ? 'Message' : 'Meeting Request'} from ${data.name}`
+            );
+            const emailBody = encodeURIComponent(
+                `Name: ${data.name}\n` +
+                `Phone: ${data.phone}\n` +
+                `Email: ${data.email}\n` +
+                `Referral Source: ${data.referralSource}${data.otherSpecify ? ` (${data.otherSpecify})` : ''}\n` +
+                `Type: ${data.contactType === 'message' ? 'Message' : 'Meeting Request'}\n` +
+                (data.message ? `Message: ${data.message}` : '')
+            );
+            // Uncomment to enable email sending
+            // window.location.href = `mailto:contactus@semigassolutions.com?subject=${emailSubject}&body=${emailBody}`;
+        }, 2000);
+    }
+}
 
 // Modal functionality
 function setupModalListeners() {
@@ -779,445 +885,6 @@ function animateMolecule(molecule, startX, startY, moveDuration, spinDuration) {
     window.addEventListener('resize', handleResize);
     
     requestAnimationFrame(animate);
-}
-
-// Initialize and animate molecular canvas on home page with 3D effects
-function initMolecularCanvas() {
-    const canvas = document.getElementById('molecular-canvas');
-    if (!canvas) return;
-    
-    const ctx = canvas.getContext('2d');
-    const homeSection = document.getElementById('home');
-    if (!homeSection) return;
-    
-    // Color constants matching theme
-    const colors = {
-        cyan: '#3BFFFF',
-        pink: '#F10092',
-        cyanGlow: 'rgba(59, 255, 255, 0.9)',
-        pinkGlow: 'rgba(241, 0, 146, 0.9)',
-        cyanDim: 'rgba(59, 255, 255, 0.5)',
-        pinkDim: 'rgba(241, 0, 146, 0.5)',
-        cyanBright: 'rgba(59, 255, 255, 1)',
-        pinkBright: 'rgba(241, 0, 146, 1)'
-    };
-    
-    // 3D rotation state
-    let rotationX = 0.3;
-    let rotationY = 0.2;
-    let rotationZ = 0;
-    
-    // Perspective projection
-    const perspective = 800;
-    
-    // Get center coordinates dynamically
-    function getCenter() {
-        return {
-            x: canvas.width / 2,
-            y: canvas.height / 2
-        };
-    }
-    
-    // Set canvas size
-    function resizeCanvas() {
-        const width = homeSection.offsetWidth || window.innerWidth;
-        const height = homeSection.offsetHeight || window.innerHeight;
-        canvas.width = width;
-        canvas.height = height;
-    }
-    resizeCanvas();
-    window.addEventListener('resize', () => {
-        resizeCanvas();
-        createNodes();
-    });
-    
-    // 3D rotation functions
-    function rotateX(point, angle) {
-        const y = point.y * Math.cos(angle) - point.z * Math.sin(angle);
-        const z = point.y * Math.sin(angle) + point.z * Math.cos(angle);
-        return { x: point.x, y, z };
-    }
-    
-    function rotateY(point, angle) {
-        const x = point.x * Math.cos(angle) + point.z * Math.sin(angle);
-        const z = -point.x * Math.sin(angle) + point.z * Math.cos(angle);
-        return { x, y: point.y, z };
-    }
-    
-    function rotateZ(point, angle) {
-        const x = point.x * Math.cos(angle) - point.y * Math.sin(angle);
-        const y = point.x * Math.sin(angle) + point.y * Math.cos(angle);
-        return { x, y, z: point.z };
-    }
-    
-    // Project 3D point to 2D screen
-    function project(point) {
-        let p = { x: point.x, y: point.y, z: point.z };
-        
-        // Apply rotations
-        p = rotateX(p, rotationX);
-        p = rotateY(p, rotationY);
-        p = rotateZ(p, rotationZ);
-        
-        // Perspective projection
-        const scale = perspective / (perspective + p.z);
-        const center = getCenter();
-        return {
-            x: center.x + p.x * scale,
-            y: center.y + p.y * scale,
-            z: p.z,
-            scale: scale
-        };
-    }
-    
-    // Node class for 3D molecular spheres
-    class Node {
-        constructor(x, y, z) {
-            this.baseX = x;
-            this.baseY = y;
-            this.baseZ = z;
-            this.x = x;
-            this.y = y;
-            this.z = z;
-            this.radius = 5 + Math.random() * 4;
-            this.color = Math.random() > 0.5 ? colors.cyan : colors.pink;
-            this.glowColor = this.color === colors.cyan ? colors.cyanGlow : colors.pinkGlow;
-            this.waveOffset = Math.random() * Math.PI * 2;
-            this.waveSpeed = 0.008 + Math.random() * 0.015;
-            this.waveAmplitude = 20 + Math.random() * 30;
-            this.projected = null;
-        }
-        
-        update(time) {
-            // Wavy 3D movement
-            this.x = this.baseX + Math.sin(time * this.waveSpeed + this.waveOffset) * this.waveAmplitude;
-            this.y = this.baseY + Math.cos(time * this.waveSpeed * 0.8 + this.waveOffset) * this.waveAmplitude;
-            this.z = this.baseZ + Math.sin(time * this.waveSpeed * 1.2 + this.waveOffset * 0.7) * this.waveAmplitude * 0.6;
-        }
-        
-        project() {
-            this.projected = project({ x: this.x, y: this.y, z: this.z });
-        }
-        
-        draw(ctx) {
-            if (!this.projected) return;
-            
-            const { x, y, scale, z } = this.projected;
-            const radius = this.radius * scale;
-            
-            // Depth-based opacity
-            const depthFactor = Math.max(0.3, Math.min(1, (z + 200) / 400));
-            const opacity = 0.4 + depthFactor * 0.6;
-            
-            // Outer glow with depth
-            const glowRadius = radius * (2.5 + depthFactor);
-            const glowGradient = ctx.createRadialGradient(x, y, 0, x, y, glowRadius);
-            const glowColor = this.color === colors.cyan 
-                ? `rgba(59, 255, 255, ${0.6 * opacity})` 
-                : `rgba(241, 0, 146, ${0.6 * opacity})`;
-            glowGradient.addColorStop(0, glowColor);
-            glowGradient.addColorStop(0.4, this.color === colors.cyan 
-                ? `rgba(59, 255, 255, ${0.3 * opacity})` 
-                : `rgba(241, 0, 146, ${0.3 * opacity})`);
-            glowGradient.addColorStop(1, 'transparent');
-            
-            ctx.fillStyle = glowGradient;
-            ctx.beginPath();
-            ctx.arc(x, y, glowRadius, 0, Math.PI * 2);
-            ctx.fill();
-            
-            // Main 3D sphere with realistic lighting
-            const lightX = x - radius * 0.4;
-            const lightY = y - radius * 0.4;
-            const sphereGradient = ctx.createRadialGradient(
-                lightX, lightY, 0,
-                x, y, radius
-            );
-            
-            // Bright highlight
-            sphereGradient.addColorStop(0, `rgba(255, 255, 255, ${0.8 * opacity})`);
-            // Main color
-            sphereGradient.addColorStop(0.2, this.color === colors.cyan 
-                ? `rgba(59, 255, 255, ${0.9 * opacity})` 
-                : `rgba(241, 0, 146, ${0.9 * opacity})`);
-            // Mid-tone
-            sphereGradient.addColorStop(0.5, this.color === colors.cyan 
-                ? `rgba(59, 255, 255, ${0.7 * opacity})` 
-                : `rgba(241, 0, 146, ${0.7 * opacity})`);
-            // Shadow side
-            sphereGradient.addColorStop(0.8, this.color === colors.cyan 
-                ? `rgba(0, 150, 200, ${0.5 * opacity})` 
-                : `rgba(180, 0, 100, ${0.5 * opacity})`);
-            // Edge shadow
-            sphereGradient.addColorStop(1, `rgba(0, 0, 0, ${0.3 * opacity})`);
-            
-            ctx.fillStyle = sphereGradient;
-            ctx.beginPath();
-            ctx.arc(x, y, radius, 0, Math.PI * 2);
-            ctx.fill();
-            
-            // Secondary highlight for more 3D effect
-            const highlightGradient = ctx.createRadialGradient(
-                lightX, lightY, 0,
-                lightX, lightY, radius * 0.5
-            );
-            highlightGradient.addColorStop(0, `rgba(255, 255, 255, ${0.9 * opacity})`);
-            highlightGradient.addColorStop(0.5, `rgba(255, 255, 255, ${0.3 * opacity})`);
-            highlightGradient.addColorStop(1, 'transparent');
-            
-            ctx.fillStyle = highlightGradient;
-            ctx.beginPath();
-            ctx.arc(lightX, lightY, radius * 0.5, 0, Math.PI * 2);
-            ctx.fill();
-            
-            // Rim light for depth
-            ctx.strokeStyle = this.color === colors.cyan 
-                ? `rgba(59, 255, 255, ${0.4 * opacity})` 
-                : `rgba(241, 0, 146, ${0.4 * opacity})`;
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.arc(x, y, radius * 0.95, 0, Math.PI * 2);
-            ctx.stroke();
-        }
-    }
-    
-    // Create nodes in 3D space
-    const nodes = [];
-    const nodeCount = 30;
-    const connectionDistance = 200;
-    
-    // Function to create nodes
-    function createNodes() {
-        nodes.length = 0; // Clear existing nodes
-        
-        // Ensure canvas is sized
-        if (canvas.width === 0 || canvas.height === 0) {
-            resizeCanvas();
-        }
-        
-        const center = getCenter();
-        
-        // Create nodes in a 3D grid pattern
-        const cols = 5;
-        const rows = 5;
-        const depth = 3;
-        const spacingX = canvas.width / (cols + 1);
-        const spacingY = canvas.height / (rows + 1);
-        const spacingZ = 150;
-        
-        for (let i = 0; i < nodeCount; i++) {
-            const col = i % cols;
-            const row = Math.floor(i / cols) % rows;
-            const dep = Math.floor(i / (cols * rows));
-            const x = spacingX * (col + 1) + (Math.random() - 0.5) * spacingX * 0.5 - center.x;
-            const y = spacingY * (row + 1) + (Math.random() - 0.5) * spacingY * 0.5 - center.y;
-            const z = (dep - depth / 2) * spacingZ + (Math.random() - 0.5) * spacingZ * 0.5;
-            nodes.push(new Node(x, y, z));
-        }
-    }
-    
-    // Initialize nodes
-    createNodes();
-    
-    // Animation loop
-    let time = 0;
-    function animate() {
-        // Only animate if home section is active
-        if (!homeSection.classList.contains('active')) {
-            requestAnimationFrame(animate);
-            return;
-        }
-        
-        // Ensure canvas is properly sized
-        if (canvas.width === 0 || canvas.height === 0) {
-            resizeCanvas();
-            createNodes();
-            requestAnimationFrame(animate);
-            return;
-        }
-        
-        // Ensure nodes exist
-        if (nodes.length === 0) {
-            createNodes();
-            requestAnimationFrame(animate);
-            return;
-        }
-        
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        time += 0.016; // Approximate 60fps
-        
-        // Slow 3D rotation
-        rotationY += 0.002;
-        rotationX = 0.3 + Math.sin(time * 0.1) * 0.1;
-        
-        // Update nodes
-        nodes.forEach(node => node.update(time));
-        
-        // Project all nodes
-        nodes.forEach(node => node.project());
-        
-        // Sort nodes by depth (z) for proper rendering
-        const sortedNodes = [...nodes].sort((a, b) => {
-            if (!a.projected || !b.projected) return 0;
-            return b.projected.z - a.projected.z;
-        });
-        
-        // Draw connections (bonds) between nearby nodes with 3D depth
-        const connections = [];
-        for (let i = 0; i < nodes.length; i++) {
-            for (let j = i + 1; j < nodes.length; j++) {
-                if (!nodes[i].projected || !nodes[j].projected) continue;
-                
-                const dx = nodes[i].x - nodes[j].x;
-                const dy = nodes[i].y - nodes[j].y;
-                const dz = nodes[i].z - nodes[j].z;
-                const distance3D = Math.sqrt(dx * dx + dy * dy + dz * dz);
-                
-                if (distance3D < connectionDistance) {
-                    const screenDx = nodes[i].projected.x - nodes[j].projected.x;
-                    const screenDy = nodes[i].projected.y - nodes[j].projected.y;
-                    const screenDistance = Math.sqrt(screenDx * screenDx + screenDy * screenDy);
-                    
-                    connections.push({
-                        node1: nodes[i],
-                        node2: nodes[j],
-                        depth: (nodes[i].projected.z + nodes[j].projected.z) / 2,
-                        distance: screenDistance
-                    });
-                }
-            }
-        }
-        
-        // Sort connections by depth
-        connections.sort((a, b) => b.depth - a.depth);
-        
-        // Draw connections with 3D depth effects
-        connections.forEach(conn => {
-            const { node1, node2, distance } = conn;
-            if (!node1.projected || !node2.projected) return;
-            
-            const depthFactor = Math.max(0.2, Math.min(1, (conn.depth + 200) / 400));
-            const opacity = (0.3 + depthFactor * 0.5) * (1 - distance / connectionDistance * 0.6);
-            
-            // Create gradient for bond with 3D depth
-            const gradient = ctx.createLinearGradient(
-                node1.projected.x, node1.projected.y,
-                node2.projected.x, node2.projected.y
-            );
-            
-            const color1 = node1.color === colors.cyan 
-                ? `rgba(59, 255, 255, ${opacity})` 
-                : `rgba(241, 0, 146, ${opacity})`;
-            const color2 = node2.color === colors.cyan 
-                ? `rgba(59, 255, 255, ${opacity})` 
-                : `rgba(241, 0, 146, ${opacity})`;
-            const midColor = node1.color === colors.cyan 
-                ? `rgba(241, 0, 146, ${opacity * 0.7})` 
-                : `rgba(59, 255, 255, ${opacity * 0.7})`;
-            
-            gradient.addColorStop(0, color1);
-            gradient.addColorStop(0.5, midColor);
-            gradient.addColorStop(1, color2);
-            
-            ctx.globalAlpha = opacity;
-            ctx.strokeStyle = gradient;
-            ctx.lineWidth = (1.5 + depthFactor * 1) * (1 - distance / connectionDistance * 0.5);
-            ctx.shadowBlur = 6 * depthFactor;
-            ctx.shadowColor = node1.color === colors.cyan ? colors.cyanDim : colors.pinkDim;
-            
-            // Wavy bond effect with 3D perspective
-            ctx.beginPath();
-            const midX = (node1.projected.x + node2.projected.x) / 2;
-            const midY = (node1.projected.y + node2.projected.y) / 2;
-            const waveOffset = Math.sin(time * 2 + node1.x + node2.x) * (8 + depthFactor * 4);
-            const perpX = -screenDy / distance * waveOffset;
-            const perpY = screenDx / distance * waveOffset;
-            
-            ctx.moveTo(node1.projected.x, node1.projected.y);
-            ctx.quadraticCurveTo(midX + perpX, midY + perpY, node2.projected.x, node2.projected.y);
-            ctx.stroke();
-        });
-        
-        ctx.globalAlpha = 1;
-        ctx.shadowBlur = 0;
-        
-        // Draw nodes from back to front
-        sortedNodes.forEach(node => node.draw(ctx));
-        
-        requestAnimationFrame(animate);
-    }
-    
-    // Start animation
-    animate();
-}
-
-// Initialize molecular video background
-function initMolecularVideo() {
-    const video = document.getElementById('molecular-video');
-    if (!video) return;
-    
-    const homeSection = document.getElementById('home');
-    if (!homeSection) return;
-    
-    // Ensure video plays when home section is active
-    function handleVideoPlay() {
-        if (homeSection.classList.contains('active')) {
-            const playPromise = video.play();
-            if (playPromise !== undefined) {
-                playPromise.catch(err => {
-                    // Auto-play might be blocked, but video will play on user interaction
-                    console.log('Video autoplay prevented:', err);
-                });
-            }
-        } else {
-            video.pause();
-        }
-    }
-    
-    // Play video when it's ready
-    video.addEventListener('loadeddata', () => {
-        handleVideoPlay();
-    });
-    
-    // Also try when metadata is loaded
-    video.addEventListener('loadedmetadata', () => {
-        handleVideoPlay();
-    });
-    
-    // Handle video errors
-    video.addEventListener('error', (e) => {
-        console.log('Video error:', e);
-        // Try to load the fallback source if MP4 fails
-        if (video.currentSrc && video.currentSrc.includes('.mp4')) {
-            console.log('MP4 failed, trying MOV fallback');
-        }
-    });
-    
-    // Observe home section visibility
-    const observer = new MutationObserver(() => {
-        handleVideoPlay();
-    });
-    
-    observer.observe(homeSection, {
-        attributes: true,
-        attributeFilter: ['class']
-    });
-    
-    // Initial play attempt after a short delay
-    setTimeout(() => {
-        handleVideoPlay();
-    }, 100);
-    
-    // Fallback: play on any user interaction
-    const playOnInteraction = () => {
-        if (homeSection.classList.contains('active')) {
-            video.play().catch(() => {});
-        }
-    };
-    
-    document.addEventListener('click', playOnInteraction, { once: true });
-    document.addEventListener('touchstart', playOnInteraction, { once: true });
 }
 
 

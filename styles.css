@@ -1512,6 +1512,30 @@ html::-webkit-scrollbar {
     margin-top: 2rem;
 }
 
+/* Calendly inline widget container */
+.calendly-inline-widget {
+    background: rgba(10, 10, 10, 0.75);
+    border-radius: 18px;
+    border: 1px solid rgba(59, 255, 255, 0.15);
+    box-shadow: 0 4px 20px rgba(10, 15, 25, 0.3);
+    padding: 1rem;
+    backdrop-filter: blur(12px);
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.calendly-inline-widget:hover {
+    border-color: rgba(59, 255, 255, 0.3);
+    box-shadow: 0 8px 30px rgba(59, 255, 255, 0.15);
+}
+
+/* Style Calendly iframe */
+.calendly-inline-widget iframe {
+    border-radius: 12px;
+    background: transparent;
+}
+
+/* Fallback placeholder styles */
 .calendar-placeholder {
     background: rgba(10, 10, 10, 0.75);
     padding: 3rem 2rem;
@@ -1549,6 +1573,15 @@ html::-webkit-scrollbar {
     margin-bottom: 1.5rem;
     line-height: 1.75;
     font-size: 1rem;
+}
+
+/* Responsive Calendly widget */
+@media (max-width: 768px) {
+    .calendly-inline-widget {
+        min-width: 100% !important;
+        height: 600px !important;
+        padding: 0.5rem;
+    }
 }
 
 /* Contact Section */
@@ -1640,7 +1673,8 @@ html::-webkit-scrollbar {
 }
 
 .form-group input,
-.form-group textarea {
+.form-group textarea,
+.form-group select {
     width: 100%;
     padding: 1rem;
     background: rgba(255, 255, 255, 0.08);
@@ -1650,20 +1684,245 @@ html::-webkit-scrollbar {
     font-size: 1rem;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     backdrop-filter: blur(8px);
+    font-family: inherit;
 }
 
 .form-group input:hover,
-.form-group textarea:hover {
+.form-group textarea:hover,
+.form-group select:hover {
     border-color: rgba(59, 255, 255, 0.3);
     background: rgba(255, 255, 255, 0.1);
 }
 
 .form-group input:focus,
-.form-group textarea:focus {
+.form-group textarea:focus,
+.form-group select:focus {
     outline: none;
     border-color: rgba(59, 255, 255, 0.5);
     box-shadow: 0 0 25px rgba(59, 255, 255, 0.25), 0 4px 15px rgba(10, 15, 25, 0.2);
     background: rgba(59, 255, 255, 0.08);
+}
+
+/* Select dropdown styling */
+.form-group select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%233BFFFF' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 12px;
+    padding-right: 2.5rem;
+    cursor: pointer;
+}
+
+.form-group select option {
+    background: #0a0a0a;
+    color: #ffffff;
+    padding: 0.5rem;
+}
+
+/* Conditional field animation */
+#other-specify-group {
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+        max-height: 0;
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        max-height: 100px;
+    }
+}
+
+/* Form message styling */
+.form-message {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    display: none;
+    animation: slideDown 0.3s ease-out;
+}
+
+.form-message.success {
+    background: rgba(0, 255, 136, 0.15);
+    border: 1px solid rgba(0, 255, 136, 0.3);
+    color: #00ff88;
+    display: block;
+}
+
+.form-message.error {
+    background: rgba(241, 0, 146, 0.15);
+    border: 1px solid rgba(241, 0, 146, 0.3);
+    color: #f10092;
+    display: block;
+}
+
+/* Disabled button state */
+button[type="submit"]:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Contact Type Selector - Prominent Buttons */
+.contact-type-selector {
+    margin-bottom: 2.5rem;
+}
+
+.contact-type-label {
+    display: block;
+    color: #3BFFFF;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1.25rem;
+    text-align: center;
+    text-shadow: 0 0 10px rgba(59, 255, 255, 0.3);
+}
+
+.contact-type-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.contact-type-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 2rem 1.5rem;
+    background: rgba(10, 10, 10, 0.75);
+    border: 2px solid rgba(59, 255, 255, 0.2);
+    border-radius: 18px;
+    color: #d0d4e0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(12px);
+    position: relative;
+    overflow: hidden;
+}
+
+.contact-type-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(59, 255, 255, 0.1), transparent);
+    transition: left 0.5s;
+}
+
+.contact-type-btn:hover::before {
+    left: 100%;
+}
+
+.contact-type-btn:hover {
+    border-color: rgba(59, 255, 255, 0.4);
+    background: rgba(59, 255, 255, 0.08);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(59, 255, 255, 0.2);
+    color: #ffffff;
+}
+
+.contact-type-btn.active {
+    border-color: rgba(59, 255, 255, 0.6);
+    background: linear-gradient(135deg, rgba(59, 255, 255, 0.15), rgba(241, 0, 146, 0.15));
+    box-shadow: 0 0 30px rgba(59, 255, 255, 0.3), 0 8px 30px rgba(10, 15, 25, 0.4);
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+.contact-type-btn.active .type-icon {
+    transform: scale(1.2);
+    filter: drop-shadow(0 0 15px rgba(59, 255, 255, 0.6));
+}
+
+.type-icon {
+    font-size: 2.5rem;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 0 8px rgba(59, 255, 255, 0.3));
+}
+
+.type-text {
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* Form fields container */
+#form-fields-container {
+    animation: slideDown 0.3s ease-out;
+}
+
+/* Responsive contact type buttons */
+@media (max-width: 768px) {
+    .contact-type-buttons {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .contact-type-btn {
+        padding: 1.5rem 1rem;
+    }
+    
+    .type-icon {
+        font-size: 2rem;
+    }
+    
+    .type-text {
+        font-size: 1rem;
+    }
+}
+
+/* Calendar availability section */
+.calendar-availability {
+    margin-top: 1rem;
+}
+
+.calendar-info {
+    color: #d0d4e0;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+    text-align: center;
+    padding: 0.75rem;
+    background: rgba(59, 255, 255, 0.05);
+    border-radius: 8px;
+    border: 1px solid rgba(59, 255, 255, 0.15);
+}
+
+.calendar-availability .calendly-inline-widget {
+    margin-top: 1rem;
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* Responsive calendar */
+@media (max-width: 768px) {
+    .calendar-availability .calendly-inline-widget {
+        min-width: 100% !important;
+        height: 700px !important;
+    }
+}
+
+/* Message field styling */
+#message-field-group {
+    animation: slideDown 0.3s ease-out;
+}
+
+#calendar-field-group {
+    animation: slideDown 0.3s ease-out;
 }
 
 .form-group input::placeholder,

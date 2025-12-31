@@ -6,6 +6,9 @@
     <title>Semigas Solutions</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/png" href="assets/semigasSpinner.png">
+    <!-- Calendly embed script -->
+    <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+    <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
 </head>
 <body>
     <!-- Atom Loader -->
@@ -27,7 +30,6 @@
                     <li><a href="#about" class="nav-link" data-section="about">About</a></li>
                     <li><a href="#experience" class="nav-link" data-section="experience">Experience</a></li>
                     <li><a href="#services" class="nav-link" data-section="services">Services</a></li>
-                    <li><a href="#meeting" class="nav-link" data-section="meeting">Book Meeting</a></li>
                     <li><a href="#faq" class="nav-link" data-section="faq">FAQ</a></li>
                     <li><a href="#contact" class="nav-link" data-section="contact">Contact</a></li>
                 </ul>
@@ -117,7 +119,7 @@
                     <p class="hero-subtitle">Keep It In the Pipe™</p>
                     <div class="hero-buttons">
                         <button class="btn btn-primary" data-section="about">Learn More</button>
-                        <button class="btn btn-secondary" data-section="meeting">Book Meeting</button>
+                        <button class="btn btn-secondary" data-section="contact">Contact Us</button>
                     </div>
                 </div>
             </div>
@@ -261,65 +263,7 @@
             </div>
         </section>
         
-        <!-- Book a Meeting Section -->
-        <section id="meeting" class="section">
-            <div class="container">
-                <h2 class="section-title">Schedule a Meeting</h2>
-                <div class="meeting-content">
-                    <div class="meeting-info">
-                        <div class="meeting-features">
-                            <div class="feature-item">
-                                <div class="feature-icon">⚡</div>
-                                <span>Technical assessment of your current setup</span>
-                            </div>
-                            <div class="feature-item">
-                                <div class="feature-icon">🔧</div>
-                                <span>Tailored controller recommendations</span>
-                            </div>
-                            <div class="feature-item">
-                                <div class="feature-icon">📈</div>
-                                <span>Clear next steps and timelines</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="meeting-booking">
-                        <div class="booking-card">
-                            <h4>Schedule Your Consultation</h4>
-                            <div class="meeting-info-card">
-                                <div class="meeting-details">
-                                    <h5>30-Minute Technical Consultation</h5>
-                                    <p>Free consultation to discuss your semiconductor needs</p>
-                                    <div class="meeting-highlights">
-                                        <div class="highlight-item">
-                                            <span class="highlight-icon">⚡</span>
-                                            <span>Expert analysis of your current setup</span>
-                                        </div>
-                                        <div class="highlight-item">
-                                            <span class="highlight-icon">🔧</span>
-                                            <span>Custom solution recommendations</span>
-                                        </div>
-                                        <div class="highlight-item">
-                                            <span class="highlight-icon">📈</span>
-                                            <span>Performance optimization insights</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="calendar-embed">
-                                <div class="calendar-placeholder">
-                                    <div class="calendar-icon">📅</div>
-                                    <h5>Calendly Integration</h5>
-                                    <p>Select your preferred date and time for a 30-minute consultation</p>
-                                    <button class="btn btn-primary" id="open-calendar">Schedule Meeting</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- FAQ Section -->
+<!-- FAQ Section -->
         <section id="faq" class="section">
             <div class="container">
                 <h2 class="section-title">FAQs</h2>
@@ -414,7 +358,7 @@
                         <div class="contact-methods">
                             <div class="contact-method">
                                 <div class="contact-icon">📧</div>
-                                <a class="contact-link" href="mailto:contact@semigassolutions.com">contact@semigassolutions.com</a>
+                                <a class="contact-link" href="mailto:contactus@semigassolutions.com">contactus@semigassolutions.com</a>
                             </div>
                             <div class="contact-method">
                                 <div class="contact-icon">📱</div>
@@ -427,17 +371,69 @@
                         </div>
                     </div>
                     <div class="contact-form">
-                        <form>
-                            <div class="form-group">
-                                <input type="text" placeholder="Your Name" required>
+                        <form id="contact-form">
+                            <!-- Contact Type Selector - FIRST and MOST PROMINENT -->
+                            <div class="form-group contact-type-selector">
+                                <label class="contact-type-label">What would you like to do?</label>
+                                <div class="contact-type-buttons">
+                                    <button type="button" class="contact-type-btn" data-type="message">
+                                        <span class="type-icon">💬</span>
+                                        <span class="type-text">Send a Message</span>
+                                    </button>
+                                    <button type="button" class="contact-type-btn" data-type="meeting">
+                                        <span class="type-icon">📅</span>
+                                        <span class="type-text">Book a Meeting</span>
+                                    </button>
+                                </div>
+                                <input type="hidden" id="contact-type" name="contactType" required>
                             </div>
-                            <div class="form-group">
-                                <input type="email" placeholder="Your Email" required>
+                            
+                            <!-- Form fields container (hidden until Message is selected) -->
+                            <div id="form-fields-container" style="display: none;">
+                                <div class="form-group">
+                                    <input type="text" id="name" name="name" placeholder="Your Name" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="tel" id="phone" name="phone" placeholder="Phone Number" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="email" id="email" name="email" placeholder="Your Email" required>
+                                </div>
+                                <div class="form-group">
+                                    <select id="referral-source" name="referralSource" required>
+                                        <option value="">Where did you hear about Semigas?</option>
+                                        <option value="Google Search">Google Search</option>
+                                        <option value="LinkedIn">LinkedIn</option>
+                                        <option value="Referral">Referral</option>
+                                        <option value="Trade Show">Trade Show</option>
+                                        <option value="Industry Publication">Industry Publication</option>
+                                        <option value="Social Media">Social Media</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" id="other-specify-group" style="display: none;">
+                                    <input type="text" id="other-specify" name="otherSpecify" placeholder="Please specify">
+                                </div>
+                                <!-- Message field (shown when Message is selected) -->
+                                <div class="form-group" id="message-field-group" style="display: none;">
+                                    <textarea id="message-field" name="message" placeholder="Your Message" rows="5"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary" id="submit-btn" style="display: none;">Send Message</button>
                             </div>
-                            <div class="form-group">
-                                <textarea placeholder="Your Message" rows="5" required></textarea>
+                            
+                            <!-- Calendar field (shown when Meeting is selected) -->
+                            <div class="form-group" id="calendar-field-group" style="display: none;">
+                                <div class="calendar-availability">
+                                    <p class="calendar-info">Select an available time slot below. Available times are shown in blue, booked times are grayed out.</p>
+                                    <!-- Calendly inline widget for meeting scheduling - shows full calendar with availability -->
+                                    <div class="calendly-inline-widget" 
+                                         data-url="https://calendly.com/josh-semigassolutions/30min" 
+                                         style="min-width:320px;height:800px;">
+                                    </div>
+                                </div>
                             </div>
-                            <button type="submit" class="btn btn-primary">Send Message</button>
+                            
+                            <div id="form-message" class="form-message"></div>
                         </form>
                     </div>
                 </div>
