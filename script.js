@@ -588,43 +588,72 @@ function setupContactForm() {
         // Log the data (for development/debugging)
         console.log('Form Submission Data:', data);
         
-        // TODO: Replace this with your actual submission method:
-        // Examples:
-        // - Send to your backend API: fetch('/api/contact', { method: 'POST', body: JSON.stringify(data) })
-        // - Send via email service (EmailJS, Formspree, etc.)
-        // - Send via webhook (Zapier, Make.com, etc.)
+        // Prepare email template parameters
+        const templateParams = {
+            to_email: 'contactus@semigassolutions.com',
+            from_name: data.name,
+            from_email: data.email,
+            phone: data.phone,
+            referral_source: data.referralSource + (data.otherSpecify ? ` (${data.otherSpecify})` : ''),
+            message: data.message || 'N/A',
+            contact_type: data.contactType === 'message' ? 'Message' : 'Meeting Request',
+            subject: `New ${data.contactType === 'message' ? 'Message' : 'Meeting Request'} from ${data.name}`
+        };
         
-        // Simulate API call delay
-        setTimeout(() => {
+        // Send email using EmailJS
+        // NOTE: You need to set up EmailJS and replace these with your actual values:
+        // 1. Go to https://www.emailjs.com/ and create a free account
+        // 2. Create an email service (Gmail, Outlook, etc.)
+        // 3. Create an email template
+        // 4. Get your Public Key, Service ID, and Template ID
+        // 5. Replace the values below
+        
+        const EMAILJS_CONFIG = {
+            PUBLIC_KEY: 'YOUR_PUBLIC_KEY', // Replace with your EmailJS Public Key
+            SERVICE_ID: 'YOUR_SERVICE_ID', // Replace with your EmailJS Service ID
+            TEMPLATE_ID: 'YOUR_TEMPLATE_ID' // Replace with your EmailJS Template ID
+        };
+        
+        // Check if EmailJS is available
+        if (typeof emailjs !== 'undefined') {
+            // Initialize EmailJS with your public key
+            emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
+            
+            // Send email
+            emailjs.send(
+                EMAILJS_CONFIG.SERVICE_ID,
+                EMAILJS_CONFIG.TEMPLATE_ID,
+                templateParams
+            )
+            .then(function(response) {
+                console.log('Email sent successfully!', response.status, response.text);
+                hideAtomLoader();
+                
+                // Show success message
+                const successMsg = data.contactType === 'message' 
+                    ? 'Thank you! Your message has been sent to contactus@semigassolutions.com. We\'ll get back to you soon.'
+                    : 'Thank you! Your meeting request has been received.';
+                showFormMessage(successMsg, 'success');
+                
+                // Reset form
+                resetForm(button, originalText);
+            })
+            .catch(function(error) {
+                console.error('Email sending failed:', error);
+                hideAtomLoader();
+                
+                // Show error message but still reset form
+                showFormMessage('There was an error sending your message. Please try again or email us directly at contactus@semigassolutions.com', 'error');
+                
+                // Reset form
+                resetForm(button, originalText);
+            });
+        } else {
+            // Fallback if EmailJS is not loaded - use mailto as backup
+            console.warn('EmailJS not loaded, using mailto fallback');
             hideAtomLoader();
             
-            // Show success message
-            const successMsg = data.contactType === 'message' 
-                ? 'Thank you! Your message has been sent. We\'ll get back to you soon.'
-                : 'Thank you! Your meeting request has been received.';
-            showFormMessage(successMsg, 'success');
-            
-            // Reset button
-            button.textContent = originalText;
-            button.disabled = false;
-            
-            // Reset form
-            contactForm.reset();
-            // Reset button states
-            contactTypeButtons.forEach(btn => btn.classList.remove('active'));
-            // Reset field visibility
-            formFieldsContainer.style.display = 'block';
-            otherSpecifyGroup.style.display = 'none';
-            otherSpecify.removeAttribute('required');
-            messageFieldGroup.style.display = 'none';
-            calendarFieldGroup.style.display = 'none';
-            messageField.removeAttribute('required');
-            submitBtn.style.display = 'none';
-            
-            // Optional: Send email notification
-            const emailSubject = encodeURIComponent(
-                `New ${data.contactType === 'message' ? 'Message' : 'Meeting Request'} from ${data.name}`
-            );
+            const emailSubject = encodeURIComponent(templateParams.subject);
             const emailBody = encodeURIComponent(
                 `Name: ${data.name}\n` +
                 `Phone: ${data.phone}\n` +
@@ -633,9 +662,32 @@ function setupContactForm() {
                 `Type: ${data.contactType === 'message' ? 'Message' : 'Meeting Request'}\n` +
                 (data.message ? `Message: ${data.message}` : '')
             );
-            // Uncomment to enable email sending
-            // window.location.href = `mailto:contactus@semigassolutions.com?subject=${emailSubject}&body=${emailBody}`;
-        }, 2000);
+            
+            // Open email client as fallback
+            window.location.href = `mailto:contactus@semigassolutions.com?subject=${emailSubject}&body=${emailBody}`;
+            
+            showFormMessage('Opening your email client to send the message...', 'success');
+            resetForm(button, originalText);
+        }
+    }
+    
+    function resetForm(button, originalText) {
+        // Reset button
+        button.textContent = originalText;
+        button.disabled = false;
+        
+        // Reset form
+        contactForm.reset();
+        // Reset button states
+        contactTypeButtons.forEach(btn => btn.classList.remove('active'));
+        // Reset field visibility
+        formFieldsContainer.style.display = 'none';
+        otherSpecifyGroup.style.display = 'none';
+        otherSpecify.removeAttribute('required');
+        messageFieldGroup.style.display = 'none';
+        calendarFieldGroup.style.display = 'none';
+        messageField.removeAttribute('required');
+        submitBtn.style.display = 'none';
     }
 }
 
