@@ -437,9 +437,6 @@ function setupContactForm() {
     const contactForm = document.getElementById('contact-form');
     if (!contactForm) return;
     
-    const referralSource = document.getElementById('referral-source');
-    const otherSpecifyGroup = document.getElementById('other-specify-group');
-    const otherSpecify = document.getElementById('other-specify');
     const contactType = document.getElementById('contact-type');
     const contactTypeButtons = document.querySelectorAll('.contact-type-btn');
     const formFieldsContainer = document.getElementById('form-fields-container');
@@ -448,20 +445,6 @@ function setupContactForm() {
     const calendarFieldGroup = document.getElementById('calendar-field-group');
     const submitBtn = document.getElementById('submit-btn');
     const formMessage = document.getElementById('form-message');
-    
-    // Show/hide "Other specify" field based on referral source selection
-    if (referralSource) {
-        referralSource.addEventListener('change', function() {
-            if (this.value === 'Other') {
-                otherSpecifyGroup.style.display = 'block';
-                otherSpecify.setAttribute('required', 'required');
-            } else {
-                otherSpecifyGroup.style.display = 'none';
-                otherSpecify.removeAttribute('required');
-                otherSpecify.value = '';
-            }
-        });
-    }
     
     // Handle contact type button clicks
     contactTypeButtons.forEach(button => {
@@ -533,32 +516,33 @@ function setupContactForm() {
             return;
         }
         
+        // Function to normalize phone number - strips all non-numeric characters
+        function normalizePhoneNumber(phone) {
+            // Remove all non-digit characters
+            return phone.replace(/\D/g, '');
+        }
+        
         // Collect form data
+        const rawPhone = document.getElementById('phone').value.trim();
+        const normalizedPhone = normalizePhoneNumber(rawPhone);
+        
         const formData = {
             name: document.getElementById('name').value.trim(),
-            phone: document.getElementById('phone').value.trim(),
+            phone: normalizedPhone, // Store normalized phone number
             email: document.getElementById('email').value.trim(),
-            referralSource: referralSource.value,
-            otherSpecify: referralSource.value === 'Other' ? otherSpecify.value.trim() : '',
             contactType: contactType.value,
             message: messageField.value.trim()
         };
         
         // Validate required fields
-        if (!formData.name || !formData.phone || !formData.email || !formData.referralSource) {
+        if (!formData.name || !normalizedPhone || !formData.email || !formData.message) {
             showFormMessage('Please fill in all required fields.', 'error');
             return;
         }
         
-        // If "Other" is selected, validate otherSpecify
-        if (formData.referralSource === 'Other' && !formData.otherSpecify) {
-            showFormMessage('Please specify where you heard about Semigas.', 'error');
-            return;
-        }
-        
-        // Validate message field
-        if (!formData.message) {
-            showFormMessage('Please enter your message.', 'error');
+        // Validate phone has at least 10 digits
+        if (normalizedPhone.length < 10) {
+            showFormMessage('Please enter a valid phone number with at least 10 digits.', 'error');
             return;
         }
         
@@ -585,33 +569,22 @@ function setupContactForm() {
     }
     
     function submitFormData(data, button, originalText) {
-        // Log the data (for development/debugging)
-        console.log('Form Submission Data:', data);
-        
-        // Prepare email template parameters
+        // Prepare email template parameters for EmailJS
         const templateParams = {
             to_email: 'contactus@semigassolutions.com',
             from_name: data.name,
             from_email: data.email,
-            phone: data.phone,
-            referral_source: data.referralSource + (data.otherSpecify ? ` (${data.otherSpecify})` : ''),
-            message: data.message || 'N/A',
-            contact_type: data.contactType === 'message' ? 'Message' : 'Meeting Request',
-            subject: `New ${data.contactType === 'message' ? 'Message' : 'Meeting Request'} from ${data.name}`
+            phone: data.phone, // Already normalized (digits only)
+            message: data.message,
+            subject: `New Contact Form Message from ${data.name}`
         };
         
-        // Send email using EmailJS
-        // NOTE: You need to set up EmailJS and replace these with your actual values:
-        // 1. Go to https://www.emailjs.com/ and create a free account
-        // 2. Create an email service (Gmail, Outlook, etc.)
-        // 3. Create an email template
-        // 4. Get your Public Key, Service ID, and Template ID
-        // 5. Replace the values below
-        
+        // EmailJS Configuration
+        // Replace these with your actual EmailJS values:
         const EMAILJS_CONFIG = {
-            PUBLIC_KEY: 'YOUR_PUBLIC_KEY', // Replace with your EmailJS Public Key
-            SERVICE_ID: 'YOUR_SERVICE_ID', // Replace with your EmailJS Service ID
-            TEMPLATE_ID: 'YOUR_TEMPLATE_ID' // Replace with your EmailJS Template ID
+            PUBLIC_KEY: 'vy6kFHg8Hcf0G6Slr', // Replace with your EmailJS Public Key
+            SERVICE_ID: 'service_m9rc8cu', // Replace with your EmailJS Service ID
+            TEMPLATE_ID: 'template_299k0i5' // Replace with your EmailJS Template ID
         };
         
         // Check if EmailJS is available
@@ -630,10 +603,7 @@ function setupContactForm() {
                 hideAtomLoader();
                 
                 // Show success message
-                const successMsg = data.contactType === 'message' 
-                    ? 'Thank you! Your message has been sent to contactus@semigassolutions.com. We\'ll get back to you soon.'
-                    : 'Thank you! Your meeting request has been received.';
-                showFormMessage(successMsg, 'success');
+                showFormMessage('Thank you! Your message has been sent to contactus@semigassolutions.com. We\'ll get back to you soon.', 'success');
                 
                 // Reset form
                 resetForm(button, originalText);
@@ -642,7 +612,7 @@ function setupContactForm() {
                 console.error('Email sending failed:', error);
                 hideAtomLoader();
                 
-                // Show error message but still reset form
+                // Show error message
                 showFormMessage('There was an error sending your message. Please try again or email us directly at contactus@semigassolutions.com', 'error');
                 
                 // Reset form
@@ -657,10 +627,8 @@ function setupContactForm() {
             const emailBody = encodeURIComponent(
                 `Name: ${data.name}\n` +
                 `Phone: ${data.phone}\n` +
-                `Email: ${data.email}\n` +
-                `Referral Source: ${data.referralSource}${data.otherSpecify ? ` (${data.otherSpecify})` : ''}\n` +
-                `Type: ${data.contactType === 'message' ? 'Message' : 'Meeting Request'}\n` +
-                (data.message ? `Message: ${data.message}` : '')
+                `Email: ${data.email}\n\n` +
+                `Message:\n${data.message}`
             );
             
             // Open email client as fallback
@@ -682,8 +650,6 @@ function setupContactForm() {
         contactTypeButtons.forEach(btn => btn.classList.remove('active'));
         // Reset field visibility
         formFieldsContainer.style.display = 'none';
-        otherSpecifyGroup.style.display = 'none';
-        otherSpecify.removeAttribute('required');
         messageFieldGroup.style.display = 'none';
         calendarFieldGroup.style.display = 'none';
         messageField.removeAttribute('required');
@@ -698,7 +664,7 @@ function setupModalListeners() {
     const modalDescription = modal.querySelector('.modal-description');
     const modalIcon = modal.querySelector('.modal-icon');
     const modalClose = modal.querySelector('.modal-close');
-    const skillItems = document.querySelectorAll('.skill-item[data-modal]');
+    const skillItems = document.querySelectorAll('.skill-item[data-modal], .molecule-ball[data-modal]');
     
     // Modal data
     const modalData = {
@@ -716,17 +682,27 @@ function setupModalListeners() {
             icon: '🚀',
             title: 'Continuous Innovation',
             description: 'Staying ahead in semiconductor manufacturing requires constant innovation. Our engineering team is dedicated to pushing the boundaries of what\'s possible, developing next-generation technologies that anticipate future industry needs. We invest heavily in R&D, collaborate with leading research institutions, and maintain a culture of experimentation to bring breakthrough solutions to market.'
+        },
+        kip: {
+            icon: '',
+            title: 'Founding Principle: Keep It In the Pipe™',
+            description: 'At SemiGas Solutions, our entire company is centered on one unwavering principle: Keep It In the Pipe™. "Keep It In the Pipe™" is the number one rule for managing any hazardous production material. When every team member embraces this principle, we stay safe, our systems remain pure, and our facilities stay in production. From training and consultation to gas systems controls and engineering, every service we offer reinforces the Keep It In the Pipe™ mindset. In order to build the best semiconductors in the world, we are required to handle the most dangerous gases and chemicals on the planet. Everyone needs to go home to their loved ones each day. Let\'s "Keep It In the Pipe™".'
         }
     };
     
-    // Open modal when skill item is clicked
+    // Open modal when skill item or molecule ball is clicked
     skillItems.forEach(item => {
         item.addEventListener('click', function() {
             const modalType = this.getAttribute('data-modal');
             const data = modalData[modalType];
             
             if (data) {
-                modalIcon.textContent = data.icon;
+                if (modalType === 'kip') {
+                    // For KIP, show the logo instead of icon
+                    modalIcon.innerHTML = '<img src="assets/KI2P Logo (1).png" alt="KI2P Logo" style="max-width: 150px; height: auto;">';
+                } else {
+                    modalIcon.textContent = data.icon;
+                }
                 modalTitle.textContent = data.title;
                 modalDescription.textContent = data.description;
                 modal.classList.add('active');

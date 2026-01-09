@@ -114,11 +114,13 @@
                     <div class="logo-container">
                         <div class="logo">
                             <div class="logo-inner">
-                                <img src="assets/semigasLogo.png" alt="Semigas Logo" class="semigas-logo" draggable="false">
+                                <img src="assets/semigasSolutionsLogo.png" alt="Semigas Solutions Logo" class="semigas-logo" draggable="false">
                             </div>
                         </div>
                     </div>
-                    <p class="hero-subtitle">Keep It In the Pipe™</p>
+                    <div class="kip-logo-container" style="display: flex; justify-content: center; align-items: center; margin: -0.5rem auto 0 auto; width: 100%;">
+                        <img src="assets/KI2P Logo (1).png" alt="KI2P Logo" style="max-width: 200px; height: auto; display: block;">
+                    </div>
                     <div class="hero-buttons">
                         <button class="btn btn-primary" data-section="about">Learn More</button>
                         <button class="btn btn-secondary" data-section="contact">Contact Us</button>
@@ -168,6 +170,9 @@
         <section id="experience" class="section">
             <div class="container">
                 <h2 class="section-title">Our Experience</h2>
+                <div style="text-align: center; margin: 2rem 0 3rem 0;">
+                    <img src="assets/KI2P Logo (1).png" alt="KI2P Logo" style="max-width: 250px; height: auto;">
+                </div>
                 <div class="experience-content">
                     <div class="experience-intro">
                         <p>SemiGas Solutions has over 50 years of experience in the industry. We have been intimately involved in FAB construction, UHP piping, gas system installation, gas system manufacturing, gas system controls design, and toxic gas monitoring.</p>
@@ -215,7 +220,9 @@
                         <p class="service-description">Comprehensive gas system training delivered onsite, virtually (Teams/Zoom), or at our Idaho facility. From "Gas Systems 101" to advanced modules covering purge requirements, dwell times, safety purge parameters, instrumentation, and toxic gas monitoring.</p>
                         <ul class="service-features">
                             <li>Gas Systems and UHP training courses</li>
-                            <li>KIP<sup class="tm-symbol">™</sup> training</li>
+                            <li style="display: flex; align-items: center; justify-content: center; padding: 1rem 0;">
+                                <img src="assets/KI2P Logo (1).png" alt="KI2P Logo" style="max-width: 180px; height: auto;">
+                            </li>
                             <li>SCBA site visits and training</li>
                             <li>Flexible delivery: Onsite, Teams, Zoom, or at our Idaho facility</li>
                         </ul>
@@ -347,6 +354,9 @@
                         </div>
                     </div>
                 </div>
+                <div style="text-align: center; margin: 3rem 0 0 0;">
+                    <img src="assets/KI2P Logo (1).png" alt="KI2P Logo" style="max-width: 200px; height: auto;">
+                </div>
             </div>
         </section>
 
@@ -365,12 +375,15 @@
                             </div>
                             <div class="contact-method">
                                 <div class="contact-icon">📱</div>
-                                <a class="contact-link" href="tel:+15551234567">+1 (555) 123-4567</a>
+                                <a class="contact-link" href="tel:+12087059116">208-705-9116</a>
                             </div>
                             <div class="contact-method">
                                 <div class="contact-icon">📍</div>
                                 <span>Pocatello, ID</span>
                             </div>
+                        </div>
+                        <div style="text-align: center; margin: 2rem 0 0 0; padding: 1.5rem; border-radius: 18px; border: 1px solid rgba(59, 255, 255, 0.15); background: rgba(10, 10, 10, 0.4);">
+                            <img src="assets/KI2P Logo (1).png" alt="KI2P Logo" style="max-width: 300px; height: auto;">
                         </div>
                     </div>
                     <div class="contact-form">
@@ -402,24 +415,9 @@
                                 <div class="form-group">
                                     <input type="email" id="email" name="email" placeholder="Your Email" required>
                                 </div>
-                                <div class="form-group">
-                                    <select id="referral-source" name="referralSource" required>
-                                        <option value="">Where did you hear about Semigas?</option>
-                                        <option value="Google Search">Google Search</option>
-                                        <option value="LinkedIn">LinkedIn</option>
-                                        <option value="Referral">Referral</option>
-                                        <option value="Trade Show">Trade Show</option>
-                                        <option value="Industry Publication">Industry Publication</option>
-                                        <option value="Social Media">Social Media</option>
-                                        <option value="Other">Other</option>
-                                    </select>
-                                </div>
-                                <div class="form-group" id="other-specify-group" style="display: none;">
-                                    <input type="text" id="other-specify" name="otherSpecify" placeholder="Please specify">
-                                </div>
                                 <!-- Message field (shown when Message is selected) -->
                                 <div class="form-group" id="message-field-group" style="display: none;">
-                                    <textarea id="message-field" name="message" placeholder="Your Message" rows="5"></textarea>
+                                    <textarea id="message-field" name="message" placeholder="Your Message" rows="5" required></textarea>
                                 </div>
                                 <button type="submit" class="btn btn-primary" id="submit-btn" style="display: none;">Send Message</button>
                             </div>
