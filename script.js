@@ -664,7 +664,7 @@ function setupModalListeners() {
     const modalDescription = modal.querySelector('.modal-description');
     const modalIcon = modal.querySelector('.modal-icon');
     const modalClose = modal.querySelector('.modal-close');
-    const skillItems = document.querySelectorAll('.skill-item[data-modal], .molecule-ball[data-modal]');
+    const skillItems = document.querySelectorAll('.skill-item[data-modal], .molecule-ball[data-modal], .molecule-hotspot[data-modal]');
     
     // Modal data
     const modalData = {

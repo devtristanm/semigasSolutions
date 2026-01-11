@@ -915,12 +915,112 @@ html::-webkit-scrollbar {
     animation-delay: 2s;
 }
 
-/* About Section */
-.about-content {
-    display: grid;
-    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-    gap: 3.5rem;
-    align-items: stretch;
+/* About Section - Fullscreen Molecule */
+#about.section {
+    padding: 40px 0;
+    overflow: visible;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.molecule-fullscreen-wrapper {
+    width: 100%;
+    max-width: 1920px;
+    aspect-ratio: 1920 / 1080;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    position: relative;
+    overflow: visible;
+    box-sizing: border-box;
+}
+
+.molecule-fullscreen {
+    width: calc(100% - 80px);
+    height: calc(100% - 80px);
+    object-fit: contain;
+    filter: drop-shadow(0 0 20px rgba(59, 255, 255, 0.3));
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Molecule Hotspots - Using percentages based on 1920x1080 container */
+.molecule-hotspot {
+    position: absolute;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    z-index: 10;
+    border-radius: 50%;
+    width: 16.875%; /* 324 / 1920 = 0.16875 - percentage of container width */
+    aspect-ratio: 1; /* Make height equal to width for perfect circle */
+    box-sizing: border-box;
+}
+
+/* Design - Top Left: 462.7px x 62.5px (relative to 1920x1080) */
+.molecule-hotspot-design {
+    left: 24.1%; /* 462.7 / 1920 = 0.241145833 */
+    top: 5.79%; /* 62.5 / 1080 = 0.05787037 */
+}
+
+/* Innovation - Top Right: 1133px x 62.5px */
+.molecule-hotspot-innovation {
+    left: 59.01%; /* 1133 / 1920 = 0.590104167 */
+    top: 5.79%; /* 62.5 / 1080 = 0.05787037 */
+}
+
+/* KIP - Middle: 798px x 337.9px */
+.molecule-hotspot-kip {
+    left: 41.56%; /* 798 / 1920 = 0.415625 */
+    top: 31.29%; /* 337.9 / 1080 = 0.313240741 */
+}
+
+/* Solutions - Bottom: 798px x 728.7px */
+.molecule-hotspot-solutions {
+    left: 41.56%; /* 798 / 1920 = 0.415625 */
+    top: 67.47%; /* 728.7 / 1080 = 0.674722222 */
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    #about.section {
+        padding: 10px 0;
+        margin-left: 0;
+        margin-right: 0;
+    }
+    
+    .molecule-fullscreen-wrapper {
+        width: 100vw;
+        max-width: none;
+        padding: 10px 5px;
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+    }
+    
+    .molecule-fullscreen {
+        width: calc(100% - 20px);
+        height: calc(100% - 20px);
+    }
+    
+    .molecule-hotspot {
+        width: 16.875%; /* Keep same percentage for consistency */
+    }
+}
+
+@media (max-width: 480px) {
+    .molecule-fullscreen-wrapper {
+        padding: 5px 2px;
+    }
+    
+    .molecule-fullscreen {
+        width: calc(100% - 10px);
+        height: calc(100% - 10px);
+    }
 }
 
 /* Molecule Layout for About Page */
@@ -2271,6 +2371,7 @@ button[type="submit"]:disabled {
         grid-template-columns: 1fr;
         gap: 2rem;
     }
+    
     
     .molecule-layout {
         grid-template-columns: 1fr;
