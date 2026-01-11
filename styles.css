@@ -916,7 +916,8 @@ html::-webkit-scrollbar {
 }
 
 /* About Section - Fullscreen Molecule */
-#about.section {
+/* Only apply these styles when About section is active */
+#about.section.active {
     padding: 40px 0;
     overflow: visible;
     display: flex;
@@ -929,7 +930,8 @@ html::-webkit-scrollbar {
     max-width: 1920px;
     aspect-ratio: 1920 / 1080;
     margin: 0 auto;
-    display: none; /* Hidden by default - only shown on #about section */
+    display: none !important; /* Hidden by default - only shown when #about is active */
+    visibility: hidden !important;
     align-items: center;
     justify-content: center;
     padding: 40px;
@@ -938,18 +940,10 @@ html::-webkit-scrollbar {
     box-sizing: border-box;
 }
 
-/* Hide molecule wrapper on all sections except About */
-#home .molecule-fullscreen-wrapper,
-#experience .molecule-fullscreen-wrapper,
-#services .molecule-fullscreen-wrapper,
-#faq .molecule-fullscreen-wrapper,
-#contact .molecule-fullscreen-wrapper {
-    display: none !important;
-}
-
-/* Show molecule wrapper only on About page */
-#about .molecule-fullscreen-wrapper {
+/* Show molecule wrapper ONLY when About section is active */
+#about.active .molecule-fullscreen-wrapper {
     display: flex !important;
+    visibility: visible !important;
 }
 
 .molecule-fullscreen {
@@ -1003,7 +997,7 @@ html::-webkit-scrollbar {
 
 /* Mobile adjustments */
 @media (max-width: 768px) {
-    #about.section {
+    #about.section.active {
         padding: 2px 0;
         margin-left: 0;
         margin-right: 0;
@@ -1028,7 +1022,7 @@ html::-webkit-scrollbar {
 }
 
 @media (max-width: 480px) {
-    #about.section {
+    #about.section.active {
         padding: 1px 0;
     }
     
