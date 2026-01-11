@@ -929,13 +929,27 @@ html::-webkit-scrollbar {
     max-width: 1920px;
     aspect-ratio: 1920 / 1080;
     margin: 0 auto;
-    display: flex;
+    display: none; /* Hidden by default - only shown on #about section */
     align-items: center;
     justify-content: center;
     padding: 40px;
     position: relative;
     overflow: visible;
     box-sizing: border-box;
+}
+
+/* Hide molecule wrapper on all sections except About */
+#home .molecule-fullscreen-wrapper,
+#experience .molecule-fullscreen-wrapper,
+#services .molecule-fullscreen-wrapper,
+#faq .molecule-fullscreen-wrapper,
+#contact .molecule-fullscreen-wrapper {
+    display: none !important;
+}
+
+/* Show molecule wrapper only on About page */
+#about .molecule-fullscreen-wrapper {
+    display: flex !important;
 }
 
 .molecule-fullscreen {
@@ -986,10 +1000,11 @@ html::-webkit-scrollbar {
     top: 67.47%; /* 728.7 / 1080 = 0.674722222 */
 }
 
+
 /* Mobile adjustments */
 @media (max-width: 768px) {
     #about.section {
-        padding: 10px 0;
+        padding: 2px 0;
         margin-left: 0;
         margin-right: 0;
     }
@@ -997,14 +1012,14 @@ html::-webkit-scrollbar {
     .molecule-fullscreen-wrapper {
         width: 100vw;
         max-width: none;
-        padding: 10px 5px;
+        padding: 1px;
         margin-left: calc(50% - 50vw);
         margin-right: calc(50% - 50vw);
     }
     
     .molecule-fullscreen {
-        width: calc(100% - 20px);
-        height: calc(100% - 20px);
+        width: calc(100% - 2px);
+        height: calc(100% - 2px);
     }
     
     .molecule-hotspot {
@@ -1013,13 +1028,17 @@ html::-webkit-scrollbar {
 }
 
 @media (max-width: 480px) {
+    #about.section {
+        padding: 1px 0;
+    }
+    
     .molecule-fullscreen-wrapper {
-        padding: 5px 2px;
+        padding: 0;
     }
     
     .molecule-fullscreen {
-        width: calc(100% - 10px);
-        height: calc(100% - 10px);
+        width: 100%;
+        height: 100%;
     }
 }
 
