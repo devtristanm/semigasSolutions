@@ -3000,6 +3000,19 @@ button[type="submit"]:disabled {
     font-size: 4rem;
     margin-bottom: 1.5rem;
     animation: float 2s ease-in-out infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;
+    box-shadow: 0 0 20px rgba(59, 255, 255, 0.3);
 }
 
 .modal-title {

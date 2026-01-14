@@ -669,17 +669,17 @@ function setupModalListeners() {
     // Modal data
     const modalData = {
         solutions: {
-            icon: '💻',
+            icon: 'assets/SolutionsImage.png',
             title: 'Advanced Solutions',
             description: 'Our cutting-edge semiconductor controllers are designed to meet the demanding requirements of modern manufacturing. We provide precision control systems that optimize production efficiency, reduce downtime, and ensure consistent quality across all manufacturing processes. Our solutions integrate seamlessly with existing infrastructure while delivering measurable improvements in performance and reliability.'
         },
         design: {
-            icon: '🔧',
+            icon: 'assets/DesignImage.png',
             title: 'Intuitive Design',
             description: 'We believe technology should be accessible and easy to use. Our design philosophy centers on creating intuitive interfaces that require minimal training. Every product is carefully crafted with the end-user in mind, featuring clear visual feedback, logical workflows, and responsive controls. We combine aesthetic excellence with functional design to create solutions that operators actually want to use.'
         },
         innovation: {
-            icon: '🚀',
+            icon: 'assets/InnovationsImage.png',
             title: 'Continuous Innovation',
             description: 'Staying ahead in semiconductor manufacturing requires constant innovation. Our engineering team is dedicated to pushing the boundaries of what\'s possible, developing next-generation technologies that anticipate future industry needs. We invest heavily in R&D, collaborate with leading research institutions, and maintain a culture of experimentation to bring breakthrough solutions to market.'
         },
@@ -701,7 +701,8 @@ function setupModalListeners() {
                     // For KIP, show the logo instead of icon
                     modalIcon.innerHTML = '<img src="assets/KI2P Logo (1).png" alt="KI2P Logo" style="max-width: 150px; height: auto;">';
                 } else {
-                    modalIcon.textContent = data.icon;
+                    // For design, innovation, and solutions, show images instead of emojis
+                    modalIcon.innerHTML = `<img src="${data.icon}" alt="${data.title}" class="modal-image">`;
                 }
                 modalTitle.textContent = data.title;
                 modalDescription.textContent = data.description;
