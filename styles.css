@@ -1372,28 +1372,39 @@ html::-webkit-scrollbar {
     padding-right: 0;
     scroll-behavior: smooth;
     scrollbar-width: thin;
-    scrollbar-color: rgba(59, 255, 255, 0.3) rgba(10, 10, 10, 0.5);
+    scrollbar-color: rgba(59, 255, 255, 0.5) rgba(10, 10, 10, 0.7);
     -webkit-overflow-scrolling: touch;
     width: 100%;
+    /* Force scrollbar to always be visible */
+    scrollbar-gutter: stable;
 }
 
-/* Custom scrollbar for webkit browsers */
+/* Custom scrollbar for webkit browsers - Always visible */
 .services-grid::-webkit-scrollbar {
-    height: 8px;
+    height: 10px;
+    display: block;
+    -webkit-appearance: none;
 }
 
 .services-grid::-webkit-scrollbar-track {
-    background: rgba(10, 10, 10, 0.5);
+    background: rgba(10, 10, 10, 0.7);
     border-radius: 10px;
+    display: block;
+    opacity: 1;
+    visibility: visible;
 }
 
 .services-grid::-webkit-scrollbar-thumb {
-    background: rgba(59, 255, 255, 0.3);
+    background: rgba(59, 255, 255, 0.5);
     border-radius: 10px;
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    min-width: 50px;
 }
 
 .services-grid::-webkit-scrollbar-thumb:hover {
-    background: rgba(59, 255, 255, 0.5);
+    background: rgba(59, 255, 255, 0.7);
 }
 
 .service-card {
